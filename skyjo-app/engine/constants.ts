@@ -55,20 +55,21 @@ export const STRATEGY_NAMES: Record<StrategyId, string> = {
 };
 
 export const STRATEGY_DESCRIPTIONS: Record<StrategyId, string> = {
-  random: "Makes random valid moves. Baseline for comparison.",
+  random: "Makes random valid moves with no strategy. Baseline for comparison.",
   greedy:
-    "Always takes the immediately best card. Replaces highest known cards.",
+    "Always takes the immediately best card and replaces the highest known card. Accepts higher-value discards when falling behind opponents.",
   conservative:
-    "Gathers information first. Only swaps for significant improvements.",
+    "Gathers information first by flipping face-down cards. Only swaps for significant improvements, but loosens up under pressure to avoid being caught unprepared.",
   aggressive:
-    "Pursues column matches and tries to end rounds quickly when ahead.",
+    "Pursues column matches eagerly and tries to end rounds quickly when ahead. Rushes to reveal cards when opponents are close to finishing.",
   balanced:
-    "Adapts strategy based on game phase — conservative early, aggressive late.",
-  memory: "Tracks seen cards and uses probability to make optimal decisions.",
+    "Adapts strategy based on game phase and opponent state — conservative early, aggressive late, and shifts gears when under pressure.",
+  memory:
+    "Tracks all seen cards and uses probability to make statistically optimal decisions. Adjusts risk tolerance based on opponent positions.",
   "column-hunter":
-    "Obsessively pursues column matches to remove entire columns. Sacrifices short-term score for column removal bonuses.",
+    "Obsessively pursues column matches to remove entire columns. Sacrifices short-term score for column removal bonuses, but abandons the hunt under heavy pressure.",
   "risk-taker":
-    "Gambles on face-down cards and aggressively draws from the pile. High variance — can win big or lose big.",
+    "Gambles on face-down cards and aggressively draws from the pile. Dials up risk when falling behind and plays safe when leading. High variance — can win big or lose big.",
 };
 
 export const DEFAULT_CONFIGS: Record<StrategyId, StrategyConfig> = {
