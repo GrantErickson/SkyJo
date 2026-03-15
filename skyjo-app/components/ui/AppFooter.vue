@@ -9,7 +9,8 @@
         target="_blank"
         rel="noopener noreferrer"
         class="text-emerald-500 hover:text-emerald-300 transition"
-      >GitHub</a>
+        >GitHub</a
+      >
     </p>
   </footer>
 </template>
