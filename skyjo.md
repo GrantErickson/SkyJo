@@ -12,3 +12,13 @@ When a player is playing against computer opponents, it should be possible to sp
 Build out a markdown file called SkyJoBuild.md with a full design and appropriate implementation details.
 
 Please ask questions as necessary and update this file as needed with the answers.
+
+## Decisions
+
+1. **UI Framework:** Tailwind CSS for styling.
+2. **Column Removal Rule:** Always enabled (not optional).
+3. **Computer Strategies:** Random, Greedy, Conservative, Aggressive, Balanced, Memory — all included out of the box. Strategies should be tunable/refinable using data from self-play discovery runs.
+4. **Visual Polish:** Polished — card flip animations, smooth interactions, visually appealing.
+5. **Self-Play Results:** Include graphs/charts (win rate, score distributions) and export capability.
+6. **State Management:** Pinia.
+7. **Rules Confirmed:** 3×4 grid (3 rows, 4 columns), flip 2 cards at setup, round ends when a player reveals all cards (others get 1 more turn), round-ender with positive score that isn't lowest gets doubled, game ends at 100+ points, lowest total wins.
