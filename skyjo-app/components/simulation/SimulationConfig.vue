@@ -111,8 +111,5 @@ async function runSim() {
     seed: seed.value || undefined,
   });
   await simStore.startSimulation();
-  if (simStore.result) {
-    navigateTo("/results");
-  }
 }
 </script>

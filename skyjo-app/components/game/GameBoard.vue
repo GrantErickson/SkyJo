@@ -141,8 +141,9 @@ watch(
   () => gameStore.isHumanTurn,
   (isHuman) => {
     if (
-      (!isHuman && gameStore.gameState?.phase === "playing") ||
-      gameStore.gameState?.phase === "final-turns"
+      !isHuman &&
+      (gameStore.gameState?.phase === "playing" ||
+        gameStore.gameState?.phase === "final-turns")
     ) {
       nextTick(() => runAITurns());
     }

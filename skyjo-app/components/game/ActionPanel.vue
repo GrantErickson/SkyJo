@@ -83,7 +83,9 @@
     <!-- AI is playing -->
     <template
       v-else-if="
-        !gameStore.isHumanTurn && gameStore.gameState?.phase === 'playing'
+        !gameStore.isHumanTurn &&
+        (gameStore.gameState?.phase === 'playing' ||
+          gameStore.gameState?.phase === 'final-turns')
       "
     >
       <p class="text-emerald-400/70 text-sm text-center animate-pulse">

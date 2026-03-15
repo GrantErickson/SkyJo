@@ -268,6 +268,8 @@ export const useGameStore = defineStore("game", () => {
 
     if ((gameState.value.phase as GamePhase) === "round-scoring") {
       endRound();
+    } else if (isHumanTurn.value) {
+      turnPhase.value = "awaiting-source";
     }
 
     if (gameState.value.drawPile.length === 0) {
