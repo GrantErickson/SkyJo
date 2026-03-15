@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#6366f1"/>
+      <stop offset="100%" stop-color="#8b5cf6"/>
+    </linearGradient>
+    <linearGradient id="card" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#ffffff"/>
+      <stop offset="100%" stop-color="#e0e7ff"/>
+    </linearGradient>
+    <filter id="shadow">
+      <feDropShadow dx="1" dy="1" stdDeviation="1.5" flood-opacity="0.3"/>
+    </filter>
+  </defs>
+  <!-- Rounded background -->
+  <rect width="64" height="64" rx="14" fill="url(#bg)"/>
+  <!-- Back card (tilted) -->
+  <rect x="14" y="10" width="28" height="40" rx="4" fill="url(#card)" transform="rotate(-8 28 30)" filter="url(#shadow)" opacity="0.7"/>
+  <!-- Front card -->
+  <rect x="20" y="10" width="28" height="40" rx="4" fill="url(#card)" filter="url(#shadow)"/>
+  <!-- Star burst on card -->
+  <polygon points="34,18 36,24 42,24 37,28 39,34 34,30 29,34 31,28 26,24 32,24" fill="#6366f1" opacity="0.15"/>
+  <!-- Card value "0" (the best card in SkyJo) -->
+  <text x="34" y="36" font-family="Arial,Helvetica,sans-serif" font-size="18" font-weight="bold" fill="#6366f1" text-anchor="middle" dominant-baseline="middle">0</text>
+  <!-- Small corner pip -->
+  <text x="25" y="18" font-family="Arial,Helvetica,sans-serif" font-size="7" font-weight="bold" fill="#6366f1" text-anchor="middle">0</text>
+</svg>

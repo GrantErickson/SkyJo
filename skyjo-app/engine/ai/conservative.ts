@@ -11,6 +11,7 @@ import {
   getHighestFaceUpPosition,
   getColumnValues,
   shouldEndRoundSafely,
+  analyzeOpponents,
 } from "../grid";
 
 export function createConservativeStrategy(): Strategy {
@@ -41,8 +42,12 @@ export function createConservativeStrategy(): Strategy {
       const grid = player.grid;
       const faceDownPositions = getFaceDownPositions(grid);
 
-      // Only take discard if very low
-      if (topDiscard.value <= 0) {
+      // Analyze opponents — conservative loosens up under pressure
+      const opp = analyzeOpponents(player, gameState.players);
+
+      // Under pressure: widen discard acceptance (take cards up to 3 instead of just ≤0)
+      const discardAcceptThreshold = opp.isUnderPressure ? 3 : 0;
+      if (topDiscard.value <= discardAcceptThreshold) {
         const highest = getHighestFaceUpPosition(grid);
         if (
           highest &&
@@ -67,8 +72,9 @@ export function createConservativeStrategy(): Strategy {
         }
       }
 
-      // Check for column match opportunity with discard
-      if (topDiscard.value <= config.lowCardThreshold) {
+      // Check for column match opportunity with discard (wider range under pressure)
+      const effectiveColThreshold = config.lowCardThreshold + (opp.isUnderPressure ? 2 : 0);
+      if (topDiscard.value <= effectiveColThreshold) {
         const colTarget = findColumnTarget(grid, topDiscard.value);
         if (colTarget) {
           return {
@@ -79,8 +85,19 @@ export function createConservativeStrategy(): Strategy {
         }
       }
 
-      // End round only if very safely ahead (conservative)
-      if (faceDownPositions.length > 0 && faceDownPositions.length <= 2) {
+      // Under pressure: prioritize flipping to avoid being caught with unknowns
+      if (opp.isUnderPressure && faceDownPositions.length > 2) {
+        const target = pickFlipTarget(grid);
+        return {
+          type: "draw-and-discard-flip",
+          targetRow: target.row,
+          targetCol: target.col,
+        };
+      }
+
+      // End round only if very safely ahead (but be less cautious when clearly leading)
+      const endThreshold = opp.isLeading && opp.scoreDelta > 10 ? 3 : 2;
+      if (faceDownPositions.length > 0 && faceDownPositions.length <= endThreshold) {
         const otherGrids = gameState.players
           .filter((p) => p.id !== player.id)
           .map((p) => p.grid);

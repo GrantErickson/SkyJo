@@ -12,6 +12,7 @@ import {
   getColumnValues,
   countActiveCards,
   shouldEndRoundSafely,
+  analyzeOpponents,
 } from "../grid";
 
 export function createBalancedStrategy(): Strategy {
@@ -45,10 +46,15 @@ export function createBalancedStrategy(): Strategy {
       const faceDownCount = faceDownPositions.length;
       const progress = 1 - faceDownCount / totalActive; // 0 = all face down, 1 = all revealed
 
-      // Dynamic thresholds based on game phase
-      const effectiveHighThreshold = config.highCardThreshold - progress * 3;
+      // Analyze opponent state to adjust play dynamically
+      const opp = analyzeOpponents(player, gameState.players);
+
+      // Dynamic thresholds based on game phase AND opponent state
+      // Under pressure (opponent close to ending): accept higher cards, be less picky
+      const pressureBoost = opp.isUnderPressure ? 2 : opp.urgency * 1.5;
+      const effectiveHighThreshold = config.highCardThreshold - progress * 3 - pressureBoost;
       const effectiveLowThreshold =
-        config.lowCardThreshold + (1 - progress) * 2;
+        config.lowCardThreshold + (1 - progress) * 2 + pressureBoost;
 
       // Column match opportunities
       const colTarget = findColumnMatch(grid, topDiscard.value);
@@ -86,8 +92,19 @@ export function createBalancedStrategy(): Strategy {
         }
       }
 
-      // Early game: prefer flipping
-      if (progress < 0.5 && faceDownPositions.length > 0) {
+      // Under pressure: prioritize flipping to reveal cards before opponent ends round
+      if (opp.isUnderPressure && faceDownPositions.length > 2) {
+        const target = pickSmartFlipTarget(grid);
+        return {
+          type: "draw-and-discard-flip",
+          targetRow: target.row,
+          targetCol: target.col,
+        };
+      }
+
+      // Early game: prefer flipping (shift threshold earlier when under pressure)
+      const earlyThreshold = opp.isUnderPressure ? 0.7 : 0.5;
+      if (progress < earlyThreshold && faceDownPositions.length > 0) {
         const target = pickSmartFlipTarget(grid);
         return {
           type: "draw-and-discard-flip",

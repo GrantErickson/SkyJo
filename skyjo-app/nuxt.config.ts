@@ -5,6 +5,9 @@ export default defineNuxtConfig({
   app: {
     head: {
       title: "SkyJo",
+      link: [
+        { rel: "icon", type: "image/svg+xml", href: "/favicon.svg" },
+      ],
       meta: [
         {
           name: "description",

@@ -11,6 +11,7 @@ import {
   getHighestFaceUpPosition,
   getColumnValues,
   shouldEndRoundSafely,
+  analyzeOpponents,
 } from "../grid";
 
 export function createAggressiveStrategy(): Strategy {
@@ -41,6 +42,9 @@ export function createAggressiveStrategy(): Strategy {
       const grid = player.grid;
       const faceDownPositions = getFaceDownPositions(grid);
 
+      // Analyze opponents to adjust aggression
+      const opp = analyzeOpponents(player, gameState.players);
+
       // Eagerly take column-completing cards from discard
       const colTarget = findColumnCompleter(grid, topDiscard.value);
       if (colTarget) {
@@ -51,8 +55,9 @@ export function createAggressiveStrategy(): Strategy {
         };
       }
 
-      // Take discard if below average
-      if (topDiscard.value <= config.lowCardThreshold) {
+      // Take discard if below threshold (raise threshold when under pressure)
+      const effectiveLowThreshold = config.lowCardThreshold + (opp.isUnderPressure ? 2 : 0);
+      if (topDiscard.value <= effectiveLowThreshold) {
         const target = findBestReplacementTarget(grid, topDiscard.value);
         return {
           type: "take-discard",
@@ -61,9 +66,20 @@ export function createAggressiveStrategy(): Strategy {
         };
       }
 
+      // Under pressure with many face-down cards: rush to flip
+      if (opp.isUnderPressure && faceDownPositions.length > 2) {
+        const target = faceDownPositions[0];
+        return {
+          type: "draw-and-discard-flip",
+          targetRow: target.row,
+          targetCol: target.col,
+        };
+      }
+
       // If few face-down cards remain, try to end round quickly
-      // But only if we're confident we have the lowest score (avoid 2x penalty)
-      if (faceDownPositions.length > 0 && faceDownPositions.length <= 3) {
+      // Be more aggressive about ending when we detect we're leading
+      const maxFaceDownToEnd = opp.isLeading ? 4 : 3;
+      if (faceDownPositions.length > 0 && faceDownPositions.length <= maxFaceDownToEnd) {
         const otherGrids = gameState.players
           .filter((p) => p.id !== player.id)
           .map((p) => p.grid);

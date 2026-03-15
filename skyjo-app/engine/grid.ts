@@ -1,6 +1,7 @@
 import { ROWS, COLS } from "./constants";
 import type {
   PlayerGrid,
+  Player,
   Card,
   GridPosition,
   StrategyConfig,
@@ -209,6 +210,81 @@ export function estimateTotalScore(
     }
   }
   return total;
+}
+
+/**
+ * Analysis of opponent state relative to the current player.
+ * Strategies use this to dynamically adjust how aggressively they play.
+ */
+export interface OpponentAnalysis {
+  /** Fewest face-down cards any single opponent has */
+  opponentMinFaceDown: number;
+  /** Average face-down count across all opponents */
+  opponentAvgFaceDown: number;
+  /** Our visible score (face-up cards only) */
+  myVisibleScore: number;
+  /** Our estimated total score (face-down estimated at ~5) */
+  myEstimatedScore: number;
+  /** Lowest estimated opponent total score */
+  bestOpponentEstimate: number;
+  /** Average estimated opponent score */
+  avgOpponentEstimate: number;
+  /** True when an opponent has ≤2 face-down cards — they could end the round soon */
+  isUnderPressure: boolean;
+  /** True when our estimated score is lower than the average opponent estimate */
+  isLeading: boolean;
+  /** 0-1 urgency factor: how quickly we need to act (high = opponents are close to finishing) */
+  urgency: number;
+  /** How far ahead (+) or behind (-) we are vs the average opponent estimate */
+  scoreDelta: number;
+}
+
+/**
+ * Analyze the game state from one player's perspective.
+ * Returns metrics about opponent positions that strategies can use
+ * to dynamically adjust thresholds and decisions.
+ */
+export function analyzeOpponents(
+  myPlayer: Readonly<Player>,
+  allPlayers: readonly Player[],
+): OpponentAnalysis {
+  const opponents = allPlayers.filter((p) => p.id !== myPlayer.id);
+
+  const myVisibleScore = getVisibleScore(myPlayer.grid);
+  const myEstimatedScore = estimateTotalScore(myPlayer.grid, 5);
+
+  const opponentFaceDownCounts = opponents.map((p) => countFaceDown(p.grid));
+  const opponentEstimates = opponents.map((p) => estimateTotalScore(p.grid, 5));
+
+  const opponentMinFaceDown = Math.min(...opponentFaceDownCounts);
+  const opponentAvgFaceDown =
+    opponentFaceDownCounts.reduce((a, b) => a + b, 0) / opponents.length;
+  const bestOpponentEstimate = Math.min(...opponentEstimates);
+  const avgOpponentEstimate =
+    opponentEstimates.reduce((a, b) => a + b, 0) / opponents.length;
+
+  // Urgency: how close the nearest opponent is to revealing all cards
+  // 12 cards total per player; urgency rises as their face-down count drops
+  const myFaceDown = countFaceDown(myPlayer.grid);
+  const maxFaceDown = 10; // practical max after 2 setup flips
+  const urgency = Math.max(0, 1 - opponentMinFaceDown / maxFaceDown);
+
+  const isUnderPressure = opponentMinFaceDown <= 2;
+  const isLeading = myEstimatedScore < avgOpponentEstimate;
+  const scoreDelta = avgOpponentEstimate - myEstimatedScore; // positive = we're ahead
+
+  return {
+    opponentMinFaceDown,
+    opponentAvgFaceDown,
+    myVisibleScore,
+    myEstimatedScore,
+    bestOpponentEstimate,
+    avgOpponentEstimate,
+    isUnderPressure,
+    isLeading,
+    urgency,
+    scoreDelta,
+  };
 }
 
 /**

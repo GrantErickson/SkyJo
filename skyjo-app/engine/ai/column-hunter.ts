@@ -11,6 +11,7 @@ import {
   getHighestFaceUpPosition,
   getColumnValues,
   shouldEndRoundSafely,
+  analyzeOpponents,
 } from "../grid";
 
 export function createColumnHunterStrategy(): Strategy {
@@ -41,6 +42,19 @@ export function createColumnHunterStrategy(): Strategy {
       const grid = player.grid;
       const faceDownPositions = getFaceDownPositions(grid);
 
+      // Analyze opponents — abandon column-hunting when under heavy pressure
+      const opp = analyzeOpponents(player, gameState.players);
+
+      // Under heavy pressure with many unknowns: just flip cards, don't hunt columns
+      if (opp.isUnderPressure && faceDownPositions.length > 3) {
+        const target = findMatchPotentialFlip(grid) ?? faceDownPositions[0]!;
+        return {
+          type: "draw-and-discard-flip",
+          targetRow: target.row,
+          targetCol: target.col,
+        };
+      }
+
       // Priority 1: Complete a column match from discard
       const completer = findColumnCompleter(grid, topDiscard.value);
       if (completer) {
@@ -52,8 +66,8 @@ export function createColumnHunterStrategy(): Strategy {
       }
 
       // Priority 2: Build toward a column match — take discard if it
-      // creates a pair in a column
-      const pairTarget = findColumnPairTarget(
+      // creates a pair in a column (skip when under pressure — focus on speed)
+      const pairTarget = opp.isUnderPressure ? null : findColumnPairTarget(
         grid,
         topDiscard.value,
       ) as GridPosition | null;
@@ -82,8 +96,9 @@ export function createColumnHunterStrategy(): Strategy {
         }
       }
 
-      // Priority 4: Take very low cards from discard
-      if (topDiscard.value <= 0) {
+      // Priority 4: Take low cards from discard (widen under pressure)
+      const lowCardThreshold = opp.isUnderPressure ? 2 : 0;
+      if (topDiscard.value <= lowCardThreshold) {
         const highest = getHighestFaceUpPosition(grid);
         if (
           highest &&

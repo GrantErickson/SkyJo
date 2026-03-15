@@ -11,6 +11,7 @@ import {
   getHighestFaceUpPosition,
   getColumnValues,
   shouldEndRoundSafely,
+  analyzeOpponents,
 } from "../grid";
 
 export function createRiskTakerStrategy(): Strategy {
@@ -42,6 +43,9 @@ export function createRiskTakerStrategy(): Strategy {
       const grid = player.grid;
       const faceDownPositions = getFaceDownPositions(grid);
 
+      // Analyze opponents to calibrate risk level
+      const opp = analyzeOpponents(player, gameState.players);
+
       // Column completion is always worth it
       const colComplete = findColumnCompleter(grid, topDiscard.value);
       if (colComplete) {
@@ -52,8 +56,9 @@ export function createRiskTakerStrategy(): Strategy {
         };
       }
 
-      // Only take discard if it's very low (gambler ignores mediocre cards)
-      if (topDiscard.value <= config.lowCardThreshold) {
+      // When behind, take slightly higher discards to try to catch up
+      const effectiveLowThreshold = config.lowCardThreshold + (opp.isLeading ? 0 : 2);
+      if (topDiscard.value <= effectiveLowThreshold) {
         const highest = getHighestFaceUpPosition(grid);
         if (highest) {
           return {
@@ -81,11 +86,12 @@ export function createRiskTakerStrategy(): Strategy {
         }
       }
 
-      // Gamble: draw and swap with highest visible card (hoping for a low draw)
+      // Gamble: draw and swap with highest visible card (lower threshold when behind)
+      const effectiveHighThreshold = config.highCardThreshold - (opp.isLeading ? 0 : 2);
       const highest = getHighestFaceUpPosition(grid);
       if (
         highest &&
-        grid[highest.row]![highest.col]!.card!.value >= config.highCardThreshold
+        grid[highest.row]![highest.col]!.card!.value >= effectiveHighThreshold
       ) {
         return {
           type: "draw-and-swap",
@@ -94,8 +100,9 @@ export function createRiskTakerStrategy(): Strategy {
         };
       }
 
-      // Otherwise gamble on a face-down card with a draw-and-swap
-      if (faceDownPositions.length > 0 && Math.random() < 0.4) {
+      // Otherwise gamble on a face-down card (gamble more when behind, less when leading)
+      const gambleChance = opp.isLeading ? 0.2 : 0.6;
+      if (faceDownPositions.length > 0 && Math.random() < gambleChance) {
         const target =
           faceDownPositions[
             Math.floor(Math.random() * faceDownPositions.length)

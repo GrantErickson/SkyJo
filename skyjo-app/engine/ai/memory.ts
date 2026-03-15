@@ -13,6 +13,7 @@ import {
   getHighestFaceUpPosition,
   getColumnValues,
   shouldEndRoundSafely,
+  analyzeOpponents,
 } from "../grid";
 
 interface CardTracker {
@@ -110,10 +111,15 @@ export function createMemoryStrategy(): Strategy {
       // Update tracker with all visible info
       updateTrackerFromState(tracker, gameState);
 
+      // Analyze opponent state for informed decisions
+      const opp = analyzeOpponents(player, gameState.players);
+
       const expectedDrawValue = getExpectedValue(tracker);
+      // Under pressure: expand what counts as "low" to accept more cards
+      const effectiveLowThreshold = config.lowCardThreshold + (opp.isUnderPressure ? 2 : 0);
       const probLowDraw = getProbOfValueOrLess(
         tracker,
-        config.lowCardThreshold,
+        effectiveLowThreshold,
       );
 
       // Column completion opportunity with discard
@@ -126,8 +132,9 @@ export function createMemoryStrategy(): Strategy {
         };
       }
 
-      // Take discard if below expected value and we have a good swap target
-      if (topDiscard.value < expectedDrawValue - 1) {
+      // Take discard if below expected value (lower bar when under pressure)
+      const discardMargin = opp.isUnderPressure ? 1 : -1;
+      if (topDiscard.value < expectedDrawValue + discardMargin) {
         const highest = getHighestFaceUpPosition(grid);
         if (
           highest &&
@@ -158,8 +165,9 @@ export function createMemoryStrategy(): Strategy {
         }
       }
 
-      // Very low discard — always take
-      if (topDiscard.value <= 0) {
+      // Very low discard — always take (raise threshold under pressure)
+      const alwaysTakeThreshold = opp.isUnderPressure ? 2 : 0;
+      if (topDiscard.value <= alwaysTakeThreshold) {
         const target = findBestTarget(grid, topDiscard.value);
         return {
           type: "take-discard",

@@ -11,6 +11,7 @@ import {
   getHighestFaceUpPosition,
   getColumnValues,
   shouldEndRoundSafely,
+  analyzeOpponents,
 } from "../grid";
 
 export function createGreedyStrategy(): Strategy {
@@ -41,8 +42,12 @@ export function createGreedyStrategy(): Strategy {
       const grid = player.grid;
       const faceDownPositions = getFaceDownPositions(grid);
 
-      // If discard is low enough, take it
-      if (topDiscard.value <= config.lowCardThreshold) {
+      // Analyze opponents to adjust greediness
+      const opp = analyzeOpponents(player, gameState.players);
+
+      // When behind, accept slightly higher discard values to catch up
+      const effectiveLowThreshold = config.lowCardThreshold + (opp.isLeading ? 0 : Math.min(2, -opp.scoreDelta / 10));
+      if (topDiscard.value <= effectiveLowThreshold) {
         const target = findBestSwapTarget(grid, topDiscard.value, config);
         return {
           type: "take-discard",
@@ -78,13 +83,21 @@ export function createGreedyStrategy(): Strategy {
         };
       }
 
-      // Otherwise draw from pile — we'll decide in the action
-      // Since we can't peek, we use draw-and-swap for low drawn cards
-      // and draw-and-discard-flip for high drawn cards
-      // But we must decide the action type now. Use exploration rate to decide.
+      // Under pressure: prioritize revealing face-down cards
+      if (opp.isUnderPressure && faceDownPositions.length > 2) {
+        const target = pickBestFlipTarget(grid, config);
+        return {
+          type: "draw-and-discard-flip",
+          targetRow: target.row,
+          targetCol: target.col,
+        };
+      }
+
+      // Draw from pile — flip more often when under pressure
+      const effectiveFlipTolerance = config.flipRiskTolerance + (opp.isUnderPressure ? 0.3 : 0);
       if (
         faceDownPositions.length > 0 &&
-        Math.random() < config.flipRiskTolerance
+        Math.random() < effectiveFlipTolerance
       ) {
         const target = pickBestFlipTarget(grid, config);
         return {
