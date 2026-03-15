@@ -53,7 +53,10 @@ export function createColumnHunterStrategy(): Strategy {
 
       // Priority 2: Build toward a column match — take discard if it
       // creates a pair in a column
-      const pairTarget = findColumnPairTarget(grid, topDiscard.value) as GridPosition | null;
+      const pairTarget = findColumnPairTarget(
+        grid,
+        topDiscard.value,
+      ) as GridPosition | null;
       if (pairTarget) {
         return {
           type: "take-discard",

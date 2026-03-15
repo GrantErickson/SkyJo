@@ -159,7 +159,9 @@ export const useGameStore = defineStore("game", () => {
           gameState: gameState.value,
           player: p,
           topDiscard:
-            gameState.value.discardPile[gameState.value.discardPile.length - 1]!,
+            gameState.value.discardPile[
+              gameState.value.discardPile.length - 1
+            ]!,
           config: strategy.config,
         });
         flipCard(p.grid, flips[0].row, flips[0].col);
@@ -184,7 +186,8 @@ export const useGameStore = defineStore("game", () => {
     if (source === "discard") {
       // Must swap with a grid card
       drawnCard.value =
-        gameState.value.discardPile[gameState.value.discardPile.length - 1] ?? null;
+        gameState.value.discardPile[gameState.value.discardPile.length - 1] ??
+        null;
       turnPhase.value = "awaiting-swap-target";
     } else {
       // Draw from pile — peek at the card

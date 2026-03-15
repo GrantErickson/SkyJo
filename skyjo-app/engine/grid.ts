@@ -278,7 +278,10 @@ export function makeInformedDrawDecision(
   }
 
   // 2. Better than highest face-up card — swap
-  if (highest && drawnCard.value < grid[highest.row]![highest.col]!.card!.value) {
+  if (
+    highest &&
+    drawnCard.value < grid[highest.row]![highest.col]!.card!.value
+  ) {
     return {
       type: "draw-and-swap",
       targetRow: highest.row,
