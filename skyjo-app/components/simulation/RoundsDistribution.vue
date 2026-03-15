@@ -60,8 +60,8 @@ const chartData = computed(() => {
       {
         label: "Games",
         data: buckets,
-        backgroundColor: "rgba(16, 185, 129, 0.6)",
-        borderColor: "rgba(16, 185, 129, 0.9)",
+        backgroundColor: "rgba(99, 102, 241, 0.6)",
+        borderColor: "rgba(99, 102, 241, 0.9)",
         borderWidth: 1,
         borderRadius: 4,
       },
@@ -79,7 +79,7 @@ const chartOptions = {
     y: {
       beginAtZero: true,
       ticks: { color: "#6ee7b7" },
-      grid: { color: "rgba(16, 185, 129, 0.1)" },
+      grid: { color: "rgba(99, 102, 241, 0.1)" },
       title: { display: true, text: "Games", color: "#6ee7b7" },
     },
     x: {

@@ -36,7 +36,7 @@ const simStore = useSimStore();
 const result = computed(() => simStore.result!);
 
 const chartColors = [
-  "rgba(16, 185, 129, 0.5)",
+  "rgba(99, 102, 241, 0.5)",
   "rgba(59, 130, 246, 0.5)",
   "rgba(245, 158, 11, 0.5)",
   "rgba(239, 68, 68, 0.5)",
@@ -71,7 +71,7 @@ const chartOptions = {
     y: {
       beginAtZero: true,
       ticks: { color: "#6ee7b7" },
-      grid: { color: "rgba(16, 185, 129, 0.1)" },
+      grid: { color: "rgba(99, 102, 241, 0.1)" },
     },
     x: {
       ticks: { color: "#6ee7b7" },

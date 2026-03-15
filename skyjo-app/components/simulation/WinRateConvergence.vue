@@ -38,7 +38,7 @@ const simStore = useSimStore();
 const result = computed(() => simStore.result!);
 
 const lineColors = [
-  "rgba(16, 185, 129, 0.9)",
+  "rgba(99, 102, 241, 0.9)",
   "rgba(59, 130, 246, 0.9)",
   "rgba(245, 158, 11, 0.9)",
   "rgba(239, 68, 68, 0.9)",
@@ -102,7 +102,7 @@ const chartOptions = {
       beginAtZero: true,
       max: 100,
       ticks: { color: "#6ee7b7", callback: (v: any) => `${v}%` },
-      grid: { color: "rgba(16, 185, 129, 0.1)" },
+      grid: { color: "rgba(99, 102, 241, 0.1)" },
       title: { display: true, text: "Win Rate %", color: "#6ee7b7" },
     },
     x: {
