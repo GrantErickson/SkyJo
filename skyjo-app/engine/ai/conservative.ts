@@ -73,7 +73,8 @@ export function createConservativeStrategy(): Strategy {
       }
 
       // Check for column match opportunity with discard (wider range under pressure)
-      const effectiveColThreshold = config.lowCardThreshold + (opp.isUnderPressure ? 2 : 0);
+      const effectiveColThreshold =
+        config.lowCardThreshold + (opp.isUnderPressure ? 2 : 0);
       if (topDiscard.value <= effectiveColThreshold) {
         const colTarget = findColumnTarget(grid, topDiscard.value);
         if (colTarget) {
@@ -97,7 +98,10 @@ export function createConservativeStrategy(): Strategy {
 
       // End round only if very safely ahead (but be less cautious when clearly leading)
       const endThreshold = opp.isLeading && opp.scoreDelta > 10 ? 3 : 2;
-      if (faceDownPositions.length > 0 && faceDownPositions.length <= endThreshold) {
+      if (
+        faceDownPositions.length > 0 &&
+        faceDownPositions.length <= endThreshold
+      ) {
         const otherGrids = gameState.players
           .filter((p) => p.id !== player.id)
           .map((p) => p.grid);

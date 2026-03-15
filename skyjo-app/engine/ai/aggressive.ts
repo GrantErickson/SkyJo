@@ -56,7 +56,8 @@ export function createAggressiveStrategy(): Strategy {
       }
 
       // Take discard if below threshold (raise threshold when under pressure)
-      const effectiveLowThreshold = config.lowCardThreshold + (opp.isUnderPressure ? 2 : 0);
+      const effectiveLowThreshold =
+        config.lowCardThreshold + (opp.isUnderPressure ? 2 : 0);
       if (topDiscard.value <= effectiveLowThreshold) {
         const target = findBestReplacementTarget(grid, topDiscard.value);
         return {
@@ -79,7 +80,10 @@ export function createAggressiveStrategy(): Strategy {
       // If few face-down cards remain, try to end round quickly
       // Be more aggressive about ending when we detect we're leading
       const maxFaceDownToEnd = opp.isLeading ? 4 : 3;
-      if (faceDownPositions.length > 0 && faceDownPositions.length <= maxFaceDownToEnd) {
+      if (
+        faceDownPositions.length > 0 &&
+        faceDownPositions.length <= maxFaceDownToEnd
+      ) {
         const otherGrids = gameState.players
           .filter((p) => p.id !== player.id)
           .map((p) => p.grid);

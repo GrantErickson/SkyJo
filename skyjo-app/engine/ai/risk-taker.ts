@@ -57,7 +57,8 @@ export function createRiskTakerStrategy(): Strategy {
       }
 
       // When behind, take slightly higher discards to try to catch up
-      const effectiveLowThreshold = config.lowCardThreshold + (opp.isLeading ? 0 : 2);
+      const effectiveLowThreshold =
+        config.lowCardThreshold + (opp.isLeading ? 0 : 2);
       if (topDiscard.value <= effectiveLowThreshold) {
         const highest = getHighestFaceUpPosition(grid);
         if (highest) {
@@ -87,7 +88,8 @@ export function createRiskTakerStrategy(): Strategy {
       }
 
       // Gamble: draw and swap with highest visible card (lower threshold when behind)
-      const effectiveHighThreshold = config.highCardThreshold - (opp.isLeading ? 0 : 2);
+      const effectiveHighThreshold =
+        config.highCardThreshold - (opp.isLeading ? 0 : 2);
       const highest = getHighestFaceUpPosition(grid);
       if (
         highest &&

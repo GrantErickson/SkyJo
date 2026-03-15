@@ -116,11 +116,9 @@ export function createMemoryStrategy(): Strategy {
 
       const expectedDrawValue = getExpectedValue(tracker);
       // Under pressure: expand what counts as "low" to accept more cards
-      const effectiveLowThreshold = config.lowCardThreshold + (opp.isUnderPressure ? 2 : 0);
-      const probLowDraw = getProbOfValueOrLess(
-        tracker,
-        effectiveLowThreshold,
-      );
+      const effectiveLowThreshold =
+        config.lowCardThreshold + (opp.isUnderPressure ? 2 : 0);
+      const probLowDraw = getProbOfValueOrLess(tracker, effectiveLowThreshold);
 
       // Column completion opportunity with discard
       const colTarget = findColumnCompleterMemory(grid, topDiscard.value);

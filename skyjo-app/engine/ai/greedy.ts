@@ -46,7 +46,9 @@ export function createGreedyStrategy(): Strategy {
       const opp = analyzeOpponents(player, gameState.players);
 
       // When behind, accept slightly higher discard values to catch up
-      const effectiveLowThreshold = config.lowCardThreshold + (opp.isLeading ? 0 : Math.min(2, -opp.scoreDelta / 10));
+      const effectiveLowThreshold =
+        config.lowCardThreshold +
+        (opp.isLeading ? 0 : Math.min(2, -opp.scoreDelta / 10));
       if (topDiscard.value <= effectiveLowThreshold) {
         const target = findBestSwapTarget(grid, topDiscard.value, config);
         return {
@@ -94,7 +96,8 @@ export function createGreedyStrategy(): Strategy {
       }
 
       // Draw from pile — flip more often when under pressure
-      const effectiveFlipTolerance = config.flipRiskTolerance + (opp.isUnderPressure ? 0.3 : 0);
+      const effectiveFlipTolerance =
+        config.flipRiskTolerance + (opp.isUnderPressure ? 0.3 : 0);
       if (
         faceDownPositions.length > 0 &&
         Math.random() < effectiveFlipTolerance

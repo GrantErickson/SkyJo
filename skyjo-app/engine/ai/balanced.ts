@@ -52,7 +52,8 @@ export function createBalancedStrategy(): Strategy {
       // Dynamic thresholds based on game phase AND opponent state
       // Under pressure (opponent close to ending): accept higher cards, be less picky
       const pressureBoost = opp.isUnderPressure ? 2 : opp.urgency * 1.5;
-      const effectiveHighThreshold = config.highCardThreshold - progress * 3 - pressureBoost;
+      const effectiveHighThreshold =
+        config.highCardThreshold - progress * 3 - pressureBoost;
       const effectiveLowThreshold =
         config.lowCardThreshold + (1 - progress) * 2 + pressureBoost;
 
