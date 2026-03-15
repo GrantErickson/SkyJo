@@ -186,7 +186,7 @@ const strategies: StrategyInfo[] = [
     name: STRATEGY_NAMES.memory,
     description: STRATEGY_DESCRIPTIONS.memory,
     detail:
-      "Maintains a full card tracker — counts every visible card across all players to calculate the probability distribution of what remains in the draw pile. Uses expected value and probability thresholds to decide whether to draw or take the discard. Targets flips in columns where matching cards are still statistically likely. Under pressure, widens its \"low card\" threshold, takes discards more eagerly, and raises the always-take ceiling.",
+      'Maintains a full card tracker — counts every visible card across all players to calculate the probability distribution of what remains in the draw pile. Uses expected value and probability thresholds to decide whether to draw or take the discard. Targets flips in columns where matching cards are still statistically likely. Under pressure, widens its "low card" threshold, takes discards more eagerly, and raises the always-take ceiling.',
     icon: "🧠",
     badgeClass: "bg-purple-700/60",
     difficulty: "Hard",
