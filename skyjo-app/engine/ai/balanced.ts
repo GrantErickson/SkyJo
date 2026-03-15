@@ -10,9 +10,8 @@ import {
   getActivePositions,
   getHighestFaceUpPosition,
   getColumnValues,
-  getVisibleScore,
-  countFaceDown,
   countActiveCards,
+  shouldEndRoundSafely,
 } from "../grid";
 
 export function createBalancedStrategy(): Strategy {
@@ -97,15 +96,12 @@ export function createBalancedStrategy(): Strategy {
         };
       }
 
-      // Late game: try to end round if ahead
-      if (progress > 0.7 && faceDownPositions.length > 0) {
-        const myScore = getVisibleScore(grid);
-        const otherScores = gameState.players
+      // Late game: try to end round if safely ahead
+      if (progress > 0.5 && faceDownPositions.length > 0) {
+        const otherGrids = gameState.players
           .filter((p) => p.id !== player.id)
-          .map((p) => getVisibleScore(p.grid));
-        const minOther = Math.min(...otherScores);
-
-        if (myScore <= minOther) {
+          .map((p) => p.grid);
+        if (shouldEndRoundSafely(grid, otherGrids, config.roundEndAggressiveness)) {
           const target = faceDownPositions[0];
           return {
             type: "draw-and-discard-flip",

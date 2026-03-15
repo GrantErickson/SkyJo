@@ -10,8 +10,7 @@ import {
   getActivePositions,
   getHighestFaceUpPosition,
   getColumnValues,
-  getVisibleScore,
-  countFaceDown,
+  shouldEndRoundSafely,
 } from "../grid";
 
 export function createRiskTakerStrategy(): Strategy {
@@ -65,16 +64,12 @@ export function createRiskTakerStrategy(): Strategy {
         }
       }
 
-      // Aggressive round ending — if we think we're winning, end fast
-      if (faceDownPositions.length <= 3) {
-        const myScore = getVisibleScore(grid);
-        const faceDown = countFaceDown(grid);
-        const otherScores = gameState.players
+      // Aggressive round ending — but still check we're likely winning
+      if (faceDownPositions.length > 0 && faceDownPositions.length <= 3) {
+        const otherGrids = gameState.players
           .filter((p) => p.id !== player.id)
-          .map((p) => getVisibleScore(p.grid));
-        const minOther = Math.min(...otherScores);
-
-        if (myScore <= minOther + 5 && faceDown > 0) {
+          .map((p) => p.grid);
+        if (shouldEndRoundSafely(grid, otherGrids, config.roundEndAggressiveness)) {
           const target = faceDownPositions[0];
           return {
             type: "draw-and-discard-flip",

@@ -3,6 +3,7 @@ import type {
   StrategyContext,
   TurnAction,
   GridPosition,
+  Card,
 } from "../types";
 import { getFaceDownPositions, getActivePositions } from "../grid";
 
@@ -65,6 +66,17 @@ export function createRandomStrategy(): Strategy {
           targetCol: target.col,
         };
       }
+    },
+
+    chooseDrawAction(drawnCard: Card, ctx: StrategyContext): TurnAction {
+      const activePositions = getActivePositions(ctx.player.grid);
+      const faceDownPositions = getFaceDownPositions(ctx.player.grid);
+      if (Math.random() < 0.5 || faceDownPositions.length === 0) {
+        const target = randomElement(activePositions);
+        return { type: "draw-and-swap", targetRow: target.row, targetCol: target.col };
+      }
+      const target = randomElement(faceDownPositions);
+      return { type: "draw-and-discard-flip", targetRow: target.row, targetCol: target.col };
     },
   };
 }

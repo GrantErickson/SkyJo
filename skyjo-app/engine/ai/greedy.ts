@@ -10,6 +10,7 @@ import {
   getActivePositions,
   getHighestFaceUpPosition,
   getColumnValues,
+  shouldEndRoundSafely,
 } from "../grid";
 
 export function createGreedyStrategy(): Strategy {
@@ -36,7 +37,7 @@ export function createGreedyStrategy(): Strategy {
     },
 
     chooseTurnAction(ctx: StrategyContext): TurnAction {
-      const { player, topDiscard, config } = ctx;
+      const { player, topDiscard, config, gameState } = ctx;
       const grid = player.grid;
       const faceDownPositions = getFaceDownPositions(grid);
 
@@ -48,6 +49,21 @@ export function createGreedyStrategy(): Strategy {
           targetRow: target.row,
           targetCol: target.col,
         };
+      }
+
+      // Try to end round if we're safely ahead
+      if (faceDownPositions.length > 0 && faceDownPositions.length <= 2) {
+        const otherGrids = gameState.players
+          .filter((p) => p.id !== player.id)
+          .map((p) => p.grid);
+        if (shouldEndRoundSafely(grid, otherGrids, config.roundEndAggressiveness)) {
+          const target = faceDownPositions[0];
+          return {
+            type: "draw-and-discard-flip",
+            targetRow: target.row,
+            targetCol: target.col,
+          };
+        }
       }
 
       // Check if discard can complete a column match

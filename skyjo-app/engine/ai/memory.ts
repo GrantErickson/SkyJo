@@ -12,8 +12,7 @@ import {
   getActivePositions,
   getHighestFaceUpPosition,
   getColumnValues,
-  getVisibleScore,
-  countFaceDown,
+  shouldEndRoundSafely,
 } from "../grid";
 
 interface CardTracker {
@@ -138,6 +137,21 @@ export function createMemoryStrategy(): Strategy {
             type: "take-discard",
             targetRow: highest.row,
             targetCol: highest.col,
+          };
+        }
+      }
+
+      // Try to end round if safely ahead (using memory-informed estimate)
+      if (faceDownPositions.length > 0 && faceDownPositions.length <= 3) {
+        const otherGrids = gameState.players
+          .filter((p) => p.id !== player.id)
+          .map((p) => p.grid);
+        if (shouldEndRoundSafely(grid, otherGrids, config.roundEndAggressiveness)) {
+          const target = pickBestFlipMemory(grid, tracker);
+          return {
+            type: "draw-and-discard-flip",
+            targetRow: target.row,
+            targetCol: target.col,
           };
         }
       }

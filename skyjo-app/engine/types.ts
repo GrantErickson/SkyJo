@@ -94,8 +94,9 @@ export interface RoundPlayerScore {
 
 export interface SimulationConfig {
   numGames: number;
-  numPlayers: 2 | 3 | 4;
+  numPlayers: 2 | 3 | 4 | 5 | 6;
   strategies: StrategyId[];
+  randomizeStrategies?: boolean;
   strategyConfigs?: Partial<Record<StrategyId, Partial<StrategyConfig>>>;
   seed?: number;
 }
@@ -161,4 +162,6 @@ export interface Strategy {
   config: StrategyConfig;
   chooseSetupFlips(context: StrategyContext): [GridPosition, GridPosition];
   chooseTurnAction(context: StrategyContext): TurnAction;
+  /** After drawing from pile, decide what to do with the card (swap or discard+flip). */
+  chooseDrawAction?(drawnCard: Card, context: StrategyContext): TurnAction;
 }

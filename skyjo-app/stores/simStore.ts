@@ -12,6 +12,7 @@ export const useSimStore = defineStore("sim", () => {
     numGames: 1000,
     numPlayers: 3,
     strategies: ["greedy", "memory", "aggressive"],
+    randomizeStrategies: true,
   });
 
   const isRunning = ref(false);
@@ -28,7 +29,7 @@ export const useSimStore = defineStore("sim", () => {
     config.value.strategies = strategies;
   }
 
-  function setNumPlayers(num: 2 | 3 | 4) {
+  function setNumPlayers(num: 2 | 3 | 4 | 5 | 6) {
     config.value.numPlayers = num;
     // Adjust strategies array
     while (config.value.strategies.length < num) {

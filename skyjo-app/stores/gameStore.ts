@@ -24,6 +24,7 @@ import {
   checkColumnRemoval,
   allCardsFaceUp,
   getVisibleScore,
+  makeInformedDrawDecision,
 } from "~/engine/grid";
 import { getStrategy } from "~/engine/ai";
 import { STRATEGY_NAMES } from "~/engine/constants";
@@ -249,13 +250,27 @@ export const useGameStore = defineStore("game", () => {
     const player = currentPlayer.value!;
     const strategy = getStrategy(player.strategyId!);
 
-    const action = strategy.chooseTurnAction({
+    const turnCtx = {
       gameState: gameState.value,
       player,
       topDiscard:
         gameState.value.discardPile[gameState.value.discardPile.length - 1],
       config: strategy.config,
-    });
+    };
+    let action = strategy.chooseTurnAction(turnCtx);
+
+    // Two-phase draw: let AI see the drawn card before committing
+    if (
+      (action.type === "draw-and-swap" || action.type === "draw-and-discard-flip") &&
+      gameState.value.drawPile.length > 0
+    ) {
+      const drawnCard = gameState.value.drawPile[gameState.value.drawPile.length - 1];
+      if (strategy.chooseDrawAction) {
+        action = strategy.chooseDrawAction(drawnCard, turnCtx);
+      } else {
+        action = makeInformedDrawDecision(drawnCard, player.grid, strategy.config);
+      }
+    }
 
     const result = executeTurn(gameState.value, action);
 

@@ -10,6 +10,7 @@ import {
   getActivePositions,
   getHighestFaceUpPosition,
   getColumnValues,
+  shouldEndRoundSafely,
 } from "../grid";
 
 export function createColumnHunterStrategy(): Strategy {
@@ -36,7 +37,7 @@ export function createColumnHunterStrategy(): Strategy {
     },
 
     chooseTurnAction(ctx: StrategyContext): TurnAction {
-      const { player, topDiscard } = ctx;
+      const { player, topDiscard, config, gameState } = ctx;
       const grid = player.grid;
       const faceDownPositions = getFaceDownPositions(grid);
 
@@ -61,7 +62,22 @@ export function createColumnHunterStrategy(): Strategy {
         };
       }
 
-      // Priority 3: Take very low cards from discard
+      // Priority 3: End round if safely ahead
+      if (faceDownPositions.length > 0 && faceDownPositions.length <= 2) {
+        const otherGrids = gameState.players
+          .filter((p) => p.id !== player.id)
+          .map((p) => p.grid);
+        if (shouldEndRoundSafely(grid, otherGrids, config.roundEndAggressiveness)) {
+          const target = findMatchPotentialFlip(grid) || faceDownPositions[0];
+          return {
+            type: "draw-and-discard-flip",
+            targetRow: target.row,
+            targetCol: target.col,
+          };
+        }
+      }
+
+      // Priority 4: Take very low cards from discard
       if (topDiscard.value <= 0) {
         const highest = getHighestFaceUpPosition(grid);
         if (

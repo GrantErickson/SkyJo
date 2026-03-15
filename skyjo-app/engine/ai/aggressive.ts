@@ -3,7 +3,6 @@ import type {
   StrategyContext,
   TurnAction,
   GridPosition,
-  GameState,
 } from "../types";
 import { COLS, ROWS } from "../constants";
 import {
@@ -11,8 +10,7 @@ import {
   getActivePositions,
   getHighestFaceUpPosition,
   getColumnValues,
-  getVisibleScore,
-  countFaceDown,
+  shouldEndRoundSafely,
 } from "../grid";
 
 export function createAggressiveStrategy(): Strategy {
@@ -64,11 +62,12 @@ export function createAggressiveStrategy(): Strategy {
       }
 
       // If few face-down cards remain, try to end round quickly
-      if (
-        faceDownPositions.length <= 2 &&
-        shouldEndRound(player, gameState, config)
-      ) {
-        if (faceDownPositions.length > 0) {
+      // But only if we're confident we have the lowest score (avoid 2x penalty)
+      if (faceDownPositions.length > 0 && faceDownPositions.length <= 3) {
+        const otherGrids = gameState.players
+          .filter((p) => p.id !== player.id)
+          .map((p) => p.grid);
+        if (shouldEndRoundSafely(grid, otherGrids, config.roundEndAggressiveness)) {
           const target = faceDownPositions[0];
           return {
             type: "draw-and-discard-flip",
@@ -156,28 +155,6 @@ function findBestReplacementTarget(
   }
   const active = getActivePositions(grid);
   return active[Math.floor(Math.random() * active.length)];
-}
-
-function shouldEndRound(
-  player: any,
-  gameState: GameState,
-  config: any,
-): boolean {
-  const myVisible = getVisibleScore(player.grid);
-  const faceDown = countFaceDown(player.grid);
-
-  // If we have very few face-down cards and visible score is low
-  if (faceDown <= 2 && myVisible <= 10) {
-    // Check if we're likely ahead
-    const otherScores = gameState.players
-      .filter((p) => p.id !== player.id)
-      .map((p) => getVisibleScore(p.grid));
-    const avgOther =
-      otherScores.reduce((a, b) => a + b, 0) / otherScores.length;
-
-    return myVisible < avgOther * config.roundEndAggressiveness;
-  }
-  return false;
 }
 
 function pickAggressiveFlipTarget(grid: any[][]): GridPosition {
