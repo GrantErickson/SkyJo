@@ -1,6 +1,6 @@
 <template>
-  <div class="bg-emerald-800/20 rounded-xl border border-emerald-700/20 p-4">
-    <h3 class="text-sm font-medium text-emerald-300 mb-3">
+  <div class="bg-indigo-800/20 rounded-xl border border-indigo-700/20 p-4">
+    <h3 class="text-sm font-medium text-indigo-300 mb-3">
       Win Rate by Strategy
     </h3>
     <div class="h-64">
@@ -36,7 +36,7 @@ const simStore = useSimStore();
 const result = computed(() => simStore.result!);
 
 const chartColors = [
-  "rgba(16, 185, 129, 0.8)", // emerald
+  "rgba(16, 185, 129, 0.8)", // indigo
   "rgba(59, 130, 246, 0.8)", // blue
   "rgba(245, 158, 11, 0.8)", // amber
   "rgba(239, 68, 68, 0.8)", // red

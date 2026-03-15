@@ -2,7 +2,7 @@
   <div
     class="w-14 h-20 sm:w-16 sm:h-24 rounded-lg border-2 flex items-center justify-center cursor-pointer hover:scale-105 transition-transform shadow-lg"
     :class="[
-      topCard ? colorClass : 'bg-emerald-800/40 border-emerald-700/30',
+      topCard ? colorClass : 'bg-indigo-800/40 border-indigo-700/30',
       topCard ? borderClass : '',
       { 'ring-2 ring-yellow-400 ring-opacity-75': highlighted },
     ]"
@@ -12,7 +12,7 @@
       <span class="font-bold text-xl">{{ topCard.value }}</span>
     </template>
     <template v-else>
-      <span class="text-emerald-600 text-xs">Empty</span>
+      <span class="text-indigo-400 text-xs">Empty</span>
     </template>
   </div>
 </template>

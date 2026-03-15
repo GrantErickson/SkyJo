@@ -5,7 +5,7 @@
   >
     <div class="text-center">
       <h2 class="text-2xl font-bold text-yellow-400 mb-2">Game Over!</h2>
-      <p class="text-emerald-300 text-sm mb-6">Final Standings</p>
+      <p class="text-indigo-300 text-sm mb-6">Final Standings</p>
 
       <div class="space-y-2 mb-6">
         <div
@@ -15,7 +15,7 @@
           :class="
             index === 0
               ? 'bg-yellow-400/10 border border-yellow-400/30'
-              : 'bg-emerald-800/30'
+              : 'bg-indigo-800/30'
           "
         >
           <div class="flex items-center gap-3">
@@ -36,7 +36,7 @@
           <span
             class="font-bold text-lg"
             :class="
-              player.cumulativeScore < 0 ? 'text-emerald-300' : 'text-white'
+              player.cumulativeScore < 0 ? 'text-indigo-300' : 'text-white'
             "
           >
             {{ player.cumulativeScore }}

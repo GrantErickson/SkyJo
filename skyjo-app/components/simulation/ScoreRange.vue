@@ -1,6 +1,6 @@
 <template>
-  <div class="bg-emerald-800/20 rounded-xl border border-emerald-700/20 p-4">
-    <h3 class="text-sm font-medium text-emerald-300 mb-3">
+  <div class="bg-indigo-800/20 rounded-xl border border-indigo-700/20 p-4">
+    <h3 class="text-sm font-medium text-indigo-300 mb-3">
       Score Range by Strategy
     </h3>
     <div class="space-y-3">
@@ -10,14 +10,14 @@
         class="space-y-1"
       >
         <div class="flex items-center justify-between text-xs">
-          <span class="text-emerald-300 font-medium">{{
+          <span class="text-indigo-300 font-medium">{{
             strategyNames[pr.strategyId]
           }}</span>
           <span class="text-white/60"
             >{{ pr.minScore }} – {{ pr.maxScore }}</span
           >
         </div>
-        <div class="relative h-6 bg-emerald-900/30 rounded">
+        <div class="relative h-6 bg-indigo-900/30 rounded">
           <!-- Full range bar -->
           <div
             class="absolute h-full rounded opacity-30"
@@ -56,7 +56,7 @@
         </div>
       </div>
       <!-- Legend -->
-      <div class="flex gap-4 justify-center text-xs text-emerald-400/70 mt-2">
+      <div class="flex gap-4 justify-center text-xs text-indigo-400/70 mt-2">
         <span>◆ Avg</span>
         <span>│ Median</span>
         <span class="opacity-70">█ ±1 Std Dev</span>

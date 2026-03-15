@@ -46,13 +46,13 @@ const sizeClasses = computed(() => {
 const variantClasses = computed(() => {
   switch (props.variant) {
     case "primary":
-      return "bg-emerald-600 hover:bg-emerald-500 text-white focus:ring-emerald-500 shadow-lg shadow-emerald-900/30";
+      return "bg-indigo-600 hover:bg-indigo-500 text-white focus:ring-indigo-500 shadow-lg shadow-indigo-900/30";
     case "secondary":
       return "bg-white/10 hover:bg-white/20 text-white focus:ring-white/30 border border-white/20";
     case "danger":
       return "bg-red-600 hover:bg-red-500 text-white focus:ring-red-500";
     case "ghost":
-      return "hover:bg-white/10 text-emerald-300 hover:text-white focus:ring-white/20";
+      return "hover:bg-white/10 text-indigo-300 hover:text-white focus:ring-white/20";
   }
 });
 </script>

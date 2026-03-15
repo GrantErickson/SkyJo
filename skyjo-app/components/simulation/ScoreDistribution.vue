@@ -1,6 +1,6 @@
 <template>
-  <div class="bg-emerald-800/20 rounded-xl border border-emerald-700/20 p-4">
-    <h3 class="text-sm font-medium text-emerald-300 mb-3">
+  <div class="bg-indigo-800/20 rounded-xl border border-indigo-700/20 p-4">
+    <h3 class="text-sm font-medium text-indigo-300 mb-3">
       Score Distribution
     </h3>
     <div class="h-64">

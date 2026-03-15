@@ -6,7 +6,7 @@
 
     <!-- Player count -->
     <div>
-      <label class="block text-sm text-emerald-300 mb-2"
+      <label class="block text-sm text-indigo-300 mb-2"
         >Number of Players</label
       >
       <div class="flex gap-2">
@@ -16,8 +16,8 @@
           class="flex-1 py-2 rounded-lg text-sm font-medium transition"
           :class="
             simStore.config.numPlayers === n
-              ? 'bg-emerald-600 text-white'
-              : 'bg-emerald-800/40 text-emerald-300 hover:bg-emerald-700/50'
+              ? 'bg-indigo-600 text-white'
+              : 'bg-indigo-800/40 text-indigo-300 hover:bg-indigo-700/50'
           "
           @click="simStore.setNumPlayers(n)"
         >
@@ -35,10 +35,10 @@
           class="sr-only peer"
         />
         <div
-          class="w-9 h-5 bg-emerald-800/50 peer-focus:ring-2 peer-focus:ring-emerald-500 rounded-full peer peer-checked:after:translate-x-full after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-emerald-600"
+          class="w-9 h-5 bg-indigo-800/50 peer-focus:ring-2 peer-focus:ring-indigo-500 rounded-full peer peer-checked:after:translate-x-full after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-indigo-600"
         ></div>
       </label>
-      <span class="text-sm text-emerald-300"
+      <span class="text-sm text-indigo-300"
         >Randomize strategies each game</span
       >
     </div>
@@ -50,12 +50,12 @@
         :key="i"
         class="space-y-1 mb-2"
       >
-        <label class="block text-sm text-emerald-300"
+        <label class="block text-sm text-indigo-300"
           >Player {{ i }} Strategy</label
         >
         <select
           :value="simStore.config.strategies[i - 1]"
-          class="w-full bg-emerald-800/50 border border-emerald-700/50 rounded-lg px-3 py-2 text-white text-sm focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
+          class="w-full bg-indigo-800/50 border border-indigo-700/50 rounded-lg px-3 py-2 text-white text-sm focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
           @change="
             updateStrategy(
               i - 1,
@@ -69,34 +69,34 @@
         </select>
       </div>
     </div>
-    <p v-else class="text-emerald-400/70 text-xs italic">
+    <p v-else class="text-indigo-400/70 text-xs italic">
       Each game will assign a random strategy to every player from the pool of
       {{ allStrategies.length }} strategies.
     </p>
 
     <!-- Number of games -->
     <div>
-      <label class="block text-sm text-emerald-300 mb-1">Number of Games</label>
+      <label class="block text-sm text-indigo-300 mb-1">Number of Games</label>
       <input
         v-model.number="numGames"
         type="number"
         min="10"
         max="100000"
         step="100"
-        class="w-full bg-emerald-800/50 border border-emerald-700/50 rounded-lg px-3 py-2 text-white text-sm focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
+        class="w-full bg-indigo-800/50 border border-indigo-700/50 rounded-lg px-3 py-2 text-white text-sm focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
       />
     </div>
 
     <!-- Seed -->
     <div>
-      <label class="block text-sm text-emerald-300 mb-1"
+      <label class="block text-sm text-indigo-300 mb-1"
         >Seed (optional, for reproducibility)</label
       >
       <input
         v-model.number="seed"
         type="number"
         placeholder="Leave empty for random"
-        class="w-full bg-emerald-800/50 border border-emerald-700/50 rounded-lg px-3 py-2 text-white text-sm focus:ring-2 focus:ring-emerald-500 focus:border-transparent placeholder-emerald-700"
+        class="w-full bg-indigo-800/50 border border-indigo-700/50 rounded-lg px-3 py-2 text-white text-sm focus:ring-2 focus:ring-indigo-500 focus:border-transparent placeholder-indigo-700"
       />
     </div>
 

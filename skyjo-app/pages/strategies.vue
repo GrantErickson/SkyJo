@@ -1,7 +1,7 @@
 <template>
   <div class="min-h-[calc(100vh-8rem)] py-6 px-4 max-w-4xl mx-auto">
     <h1 class="text-3xl font-bold text-white mb-2">AI Strategies</h1>
-    <p class="text-emerald-300 mb-8">
+    <p class="text-indigo-300 mb-8">
       Each AI opponent uses a different strategy to decide how to play. Learn
       what makes each one tick.
     </p>
@@ -10,7 +10,7 @@
       <div
         v-for="strategy in strategies"
         :key="strategy.id"
-        class="bg-emerald-800/30 border border-emerald-700/30 rounded-xl p-5"
+        class="bg-indigo-800/30 border border-indigo-700/30 rounded-xl p-5"
       >
         <div class="flex items-start gap-4">
           <div
@@ -31,16 +31,16 @@
                 {{ strategy.difficulty }}
               </span>
             </div>
-            <p class="text-emerald-300 text-sm mb-3">
+            <p class="text-indigo-300 text-sm mb-3">
               {{ strategy.description }}
             </p>
             <div class="grid grid-cols-2 sm:grid-cols-3 gap-2 text-xs">
               <div
                 v-for="trait in strategy.traits"
                 :key="trait.label"
-                class="bg-emerald-900/40 rounded-lg px-2.5 py-1.5"
+                class="bg-indigo-900/40 rounded-lg px-2.5 py-1.5"
               >
-                <span class="text-emerald-400/70">{{ trait.label }}:</span>
+                <span class="text-indigo-400/70">{{ trait.label }}:</span>
                 <span class="text-white ml-1 font-medium">{{
                   trait.value
                 }}</span>
@@ -52,14 +52,14 @@
     </div>
 
     <div
-      class="mt-8 bg-emerald-800/20 border border-emerald-700/20 rounded-xl p-5 text-center"
+      class="mt-8 bg-indigo-800/20 border border-indigo-700/20 rounded-xl p-5 text-center"
     >
-      <p class="text-emerald-300 text-sm mb-3">
+      <p class="text-indigo-300 text-sm mb-3">
         Want to see how these strategies compare?
       </p>
       <NuxtLink
         to="/simulation"
-        class="inline-flex items-center gap-2 bg-emerald-600 hover:bg-emerald-500 text-white px-4 py-2 rounded-lg text-sm font-medium transition"
+        class="inline-flex items-center gap-2 bg-indigo-600 hover:bg-indigo-500 text-white px-4 py-2 rounded-lg text-sm font-medium transition"
       >
         Run a Simulation
       </NuxtLink>
@@ -118,9 +118,9 @@ const strategies: StrategyInfo[] = [
     name: STRATEGY_NAMES.conservative,
     description: STRATEGY_DESCRIPTIONS.conservative,
     icon: "🛡️",
-    badgeClass: "bg-blue-700/60",
+    badgeClass: "bg-indigo-700/60",
     difficulty: "Medium",
-    difficultyClass: "bg-blue-600/40 text-blue-300",
+    difficultyClass: "bg-indigo-600/40 text-indigo-300",
     traits: [
       { label: "Risk", value: "Very Low" },
       { label: "Column Focus", value: "Medium" },
@@ -146,7 +146,7 @@ const strategies: StrategyInfo[] = [
     name: STRATEGY_NAMES.balanced,
     description: STRATEGY_DESCRIPTIONS.balanced,
     icon: "⚖️",
-    badgeClass: "bg-emerald-700/60",
+    badgeClass: "bg-indigo-700/60",
     difficulty: "Hard",
     difficultyClass: "bg-orange-600/40 text-orange-300",
     traits: [

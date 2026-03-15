@@ -41,14 +41,18 @@
   }
 
   .card-back {
-    @apply bg-blue-900 border-2 border-blue-700;
-    background-image: repeating-linear-gradient(
-      45deg,
-      transparent,
-      transparent 5px,
-      rgba(255, 255, 255, 0.03) 5px,
-      rgba(255, 255, 255, 0.03) 10px
-    );
+    @apply border-2 border-violet-500/70;
+    background: linear-gradient(135deg, #6366f1, #8b5cf6);
+    background-image:
+      linear-gradient(135deg, #6366f1, #8b5cf6),
+      repeating-linear-gradient(
+        45deg,
+        transparent,
+        transparent 5px,
+        rgba(255, 255, 255, 0.06) 5px,
+        rgba(255, 255, 255, 0.06) 10px
+      );
+    background-blend-mode: normal;
   }
 
   .card-slot-highlight {

@@ -1,17 +1,17 @@
 <template>
   <div
-    class="bg-emerald-800/30 rounded-xl border border-emerald-700/30 p-2 sm:p-3"
+    class="bg-indigo-800/30 rounded-xl border border-indigo-700/30 p-2 sm:p-3"
   >
     <!-- Setup phase -->
     <template v-if="gameStore.gameState?.phase === 'setup-flip'">
-      <p class="text-emerald-300 text-sm text-center">
+      <p class="text-indigo-300 text-sm text-center">
         Click <strong>2 cards</strong> in your grid to flip them face-up
       </p>
     </template>
 
     <!-- Awaiting source selection -->
     <template v-else-if="gameStore.turnPhase === 'awaiting-source'">
-      <p class="text-emerald-300 text-sm text-center mb-3">
+      <p class="text-indigo-300 text-sm text-center mb-3">
         Your turn — choose a card source:
       </p>
       <div class="flex gap-3 justify-center">
@@ -56,13 +56,13 @@
       "
     >
       <div class="text-center">
-        <p class="text-emerald-300 text-sm mb-2">
+        <p class="text-indigo-300 text-sm mb-2">
           You drew a
           <strong class="text-white text-lg">{{
             gameStore.drawnCard?.value
           }}</strong>
         </p>
-        <p class="text-emerald-400/70 text-xs mb-3">
+        <p class="text-indigo-400/70 text-xs mb-3">
           Click a card to swap, or discard and flip:
         </p>
         <UiBaseButton
@@ -90,7 +90,7 @@
           gameStore.gameState?.phase === 'final-turns')
       "
     >
-      <p class="text-emerald-400/70 text-sm text-center animate-pulse">
+      <p class="text-indigo-400/70 text-sm text-center animate-pulse">
         {{ gameStore.currentPlayer?.name }} is thinking...
       </p>
     </template>
@@ -103,15 +103,15 @@
       "
       class="mt-3 flex items-center justify-center gap-2"
     >
-      <span class="text-xs text-emerald-600">Speed:</span>
+      <span class="text-xs text-indigo-600">Speed:</span>
       <button
         v-for="speed in ['slow', 'normal', 'fast'] as const"
         :key="speed"
         class="text-xs px-2 py-1 rounded transition"
         :class="
           gameStore.gameSpeed === speed
-            ? 'bg-emerald-600 text-white'
-            : 'text-emerald-400 hover:bg-emerald-700/50'
+            ? 'bg-indigo-600 text-white'
+            : 'text-indigo-400 hover:bg-indigo-700/50'
         "
         @click="gameStore.gameSpeed = speed"
       >

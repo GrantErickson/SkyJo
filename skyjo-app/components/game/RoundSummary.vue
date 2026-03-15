@@ -16,7 +16,7 @@
           :class="
             ps.wasDoubled
               ? 'bg-red-900/30 border border-red-700/50'
-              : 'bg-emerald-800/30'
+              : 'bg-indigo-800/30'
           "
         >
           <span class="text-sm text-white">{{
@@ -33,7 +33,7 @@
               class="font-bold"
               :class="[
                 ps.finalScore < 0
-                  ? 'text-emerald-300'
+                  ? 'text-indigo-300'
                   : ps.wasDoubled
                     ? 'text-red-400'
                     : 'text-white',
