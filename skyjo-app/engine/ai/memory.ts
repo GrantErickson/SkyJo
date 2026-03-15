@@ -146,7 +146,9 @@ export function createMemoryStrategy(): Strategy {
         const otherGrids = gameState.players
           .filter((p) => p.id !== player.id)
           .map((p) => p.grid);
-        if (shouldEndRoundSafely(grid, otherGrids, config.roundEndAggressiveness)) {
+        if (
+          shouldEndRoundSafely(grid, otherGrids, config.roundEndAggressiveness)
+        ) {
           const target = pickBestFlipMemory(grid, tracker);
           return {
             type: "draw-and-discard-flip",

@@ -84,7 +84,9 @@ export function createConservativeStrategy(): Strategy {
         const otherGrids = gameState.players
           .filter((p) => p.id !== player.id)
           .map((p) => p.grid);
-        if (shouldEndRoundSafely(grid, otherGrids, config.roundEndAggressiveness)) {
+        if (
+          shouldEndRoundSafely(grid, otherGrids, config.roundEndAggressiveness)
+        ) {
           const target = faceDownPositions[0];
           return {
             type: "draw-and-discard-flip",

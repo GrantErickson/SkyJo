@@ -1,5 +1,11 @@
 import { ROWS, COLS } from "./constants";
-import type { PlayerGrid, Card, GridPosition, StrategyConfig, TurnAction } from "./types";
+import type {
+  PlayerGrid,
+  Card,
+  GridPosition,
+  StrategyConfig,
+  TurnAction,
+} from "./types";
 
 export function createGrid(cards: Card[]): PlayerGrid {
   const grid: PlayerGrid = [];
@@ -273,7 +279,11 @@ export function makeInformedDrawDecision(
 
   // 2. Better than highest face-up card — swap
   if (highest && drawnCard.value < grid[highest.row][highest.col].card!.value) {
-    return { type: "draw-and-swap", targetRow: highest.row, targetCol: highest.col };
+    return {
+      type: "draw-and-swap",
+      targetRow: highest.row,
+      targetCol: highest.col,
+    };
   }
 
   // 3. Low drawn card — swap with face-down (expected value ~5)
@@ -283,10 +293,18 @@ export function makeInformedDrawDecision(
       const colValues = getColumnValues(grid, pos.col);
       const matchCount = colValues.filter((v) => v === drawnCard.value).length;
       if (matchCount >= 1) {
-        return { type: "draw-and-swap", targetRow: pos.row, targetCol: pos.col };
+        return {
+          type: "draw-and-swap",
+          targetRow: pos.row,
+          targetCol: pos.col,
+        };
       }
     }
-    return { type: "draw-and-swap", targetRow: faceDown[0].row, targetCol: faceDown[0].col };
+    return {
+      type: "draw-and-swap",
+      targetRow: faceDown[0].row,
+      targetCol: faceDown[0].col,
+    };
   }
 
   // 4. Not worth keeping — discard and flip
@@ -296,16 +314,32 @@ export function makeInformedDrawDecision(
       const colValues = getColumnValues(grid, pos.col);
       const known = colValues.filter((v) => v !== null);
       if (known.length === 2 && known[0] === known[1]) {
-        return { type: "draw-and-discard-flip", targetRow: pos.row, targetCol: pos.col };
+        return {
+          type: "draw-and-discard-flip",
+          targetRow: pos.row,
+          targetCol: pos.col,
+        };
       }
     }
-    return { type: "draw-and-discard-flip", targetRow: faceDown[0].row, targetCol: faceDown[0].col };
+    return {
+      type: "draw-and-discard-flip",
+      targetRow: faceDown[0].row,
+      targetCol: faceDown[0].col,
+    };
   }
 
   // 5. All face-up fallback — swap with highest if beneficial
   if (highest) {
-    return { type: "draw-and-swap", targetRow: highest.row, targetCol: highest.col };
+    return {
+      type: "draw-and-swap",
+      targetRow: highest.row,
+      targetCol: highest.col,
+    };
   }
   const active = getActivePositions(grid);
-  return { type: "draw-and-swap", targetRow: active[0].row, targetCol: active[0].col };
+  return {
+    type: "draw-and-swap",
+    targetRow: active[0].row,
+    targetCol: active[0].col,
+  };
 }

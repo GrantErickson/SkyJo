@@ -261,14 +261,20 @@ export const useGameStore = defineStore("game", () => {
 
     // Two-phase draw: let AI see the drawn card before committing
     if (
-      (action.type === "draw-and-swap" || action.type === "draw-and-discard-flip") &&
+      (action.type === "draw-and-swap" ||
+        action.type === "draw-and-discard-flip") &&
       gameState.value.drawPile.length > 0
     ) {
-      const drawnCard = gameState.value.drawPile[gameState.value.drawPile.length - 1];
+      const drawnCard =
+        gameState.value.drawPile[gameState.value.drawPile.length - 1];
       if (strategy.chooseDrawAction) {
         action = strategy.chooseDrawAction(drawnCard, turnCtx);
       } else {
-        action = makeInformedDrawDecision(drawnCard, player.grid, strategy.config);
+        action = makeInformedDrawDecision(
+          drawnCard,
+          player.grid,
+          strategy.config,
+        );
       }
     }
 

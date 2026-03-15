@@ -73,10 +73,18 @@ export function createRandomStrategy(): Strategy {
       const faceDownPositions = getFaceDownPositions(ctx.player.grid);
       if (Math.random() < 0.5 || faceDownPositions.length === 0) {
         const target = randomElement(activePositions);
-        return { type: "draw-and-swap", targetRow: target.row, targetCol: target.col };
+        return {
+          type: "draw-and-swap",
+          targetRow: target.row,
+          targetCol: target.col,
+        };
       }
       const target = randomElement(faceDownPositions);
-      return { type: "draw-and-discard-flip", targetRow: target.row, targetCol: target.col };
+      return {
+        type: "draw-and-discard-flip",
+        targetRow: target.row,
+        targetCol: target.col,
+      };
     },
   };
 }

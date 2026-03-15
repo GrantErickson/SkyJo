@@ -14,7 +14,12 @@ import {
   reshuffleDiscardIntoDraw,
 } from "./rules";
 import { scoreRound, isGameOver, getWinner } from "./scoring";
-import { flipCard, flipAllCards, checkColumnRemoval, makeInformedDrawDecision } from "./grid";
+import {
+  flipCard,
+  flipAllCards,
+  checkColumnRemoval,
+  makeInformedDrawDecision,
+} from "./grid";
 import { getStrategy, getAllStrategyIds } from "./ai";
 import { createSeededRng } from "../utils/random";
 import { mean, median, stdDev, histogram } from "../utils/stats";
@@ -22,7 +27,10 @@ import { STRATEGY_NAMES } from "./constants";
 
 const ALL_STRATEGY_IDS = getAllStrategyIds();
 
-function pickUniqueRandomStrategies(count: number, rng?: (n?: number) => number): StrategyId[] {
+function pickUniqueRandomStrategies(
+  count: number,
+  rng?: (n?: number) => number,
+): StrategyId[] {
   const pool = [...ALL_STRATEGY_IDS];
   const rand = rng ?? Math.random;
   const picked: StrategyId[] = [];
@@ -34,7 +42,10 @@ function pickUniqueRandomStrategies(count: number, rng?: (n?: number) => number)
   return picked;
 }
 
-function createPlayers(config: SimulationConfig, rng?: (n?: number) => number): Player[] {
+function createPlayers(
+  config: SimulationConfig,
+  rng?: (n?: number) => number,
+): Player[] {
   if (config.randomizeStrategies) {
     const strategies = pickUniqueRandomStrategies(config.numPlayers, rng);
     return strategies.map((strategyId, i) => ({
@@ -193,14 +204,19 @@ function runSingleGame(
 
       // Two-phase draw: let AI see the drawn card before committing
       if (
-        (action.type === "draw-and-swap" || action.type === "draw-and-discard-flip") &&
+        (action.type === "draw-and-swap" ||
+          action.type === "draw-and-discard-flip") &&
         state.drawPile.length > 0
       ) {
         const drawnCard = state.drawPile[state.drawPile.length - 1];
         if (strategy.chooseDrawAction) {
           action = strategy.chooseDrawAction(drawnCard, turnCtx);
         } else {
-          action = makeInformedDrawDecision(drawnCard, player.grid, strategy.config);
+          action = makeInformedDrawDecision(
+            drawnCard,
+            player.grid,
+            strategy.config,
+          );
         }
       }
 
@@ -245,12 +261,18 @@ function runSingleGame(
 
   // Track by strategy (for randomized mode)
   if (ctx.randomized) {
-    ctx.strategyWins.set(winnerStrategy, (ctx.strategyWins.get(winnerStrategy) || 0) + 1);
+    ctx.strategyWins.set(
+      winnerStrategy,
+      (ctx.strategyWins.get(winnerStrategy) || 0) + 1,
+    );
     for (const player of players) {
       const sid = player.strategyId!;
       if (!ctx.strategyScores.has(sid)) ctx.strategyScores.set(sid, []);
       ctx.strategyScores.get(sid)!.push(player.cumulativeScore);
-      ctx.strategyGamesPlayed.set(sid, (ctx.strategyGamesPlayed.get(sid) || 0) + 1);
+      ctx.strategyGamesPlayed.set(
+        sid,
+        (ctx.strategyGamesPlayed.get(sid) || 0) + 1,
+      );
     }
   }
 
@@ -271,8 +293,8 @@ function finalizeResults(
 
   if (ctx.randomized) {
     // Aggregate results by strategy
-    const strategyIds = ALL_STRATEGY_IDS.filter(
-      (id) => ctx.strategyGamesPlayed.has(id),
+    const strategyIds = ALL_STRATEGY_IDS.filter((id) =>
+      ctx.strategyGamesPlayed.has(id),
     );
     const totalGamesPlayed = ctx.strategyGamesPlayed;
 

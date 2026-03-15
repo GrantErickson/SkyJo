@@ -38,12 +38,18 @@
           class="w-9 h-5 bg-emerald-800/50 peer-focus:ring-2 peer-focus:ring-emerald-500 rounded-full peer peer-checked:after:translate-x-full after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-emerald-600"
         ></div>
       </label>
-      <span class="text-sm text-emerald-300">Randomize strategies each game</span>
+      <span class="text-sm text-emerald-300"
+        >Randomize strategies each game</span
+      >
     </div>
 
     <!-- Strategy selection (hidden when randomized) -->
     <div v-if="!randomizeStrategies">
-      <div v-for="i in simStore.config.numPlayers" :key="i" class="space-y-1 mb-2">
+      <div
+        v-for="i in simStore.config.numPlayers"
+        :key="i"
+        class="space-y-1 mb-2"
+      >
         <label class="block text-sm text-emerald-300"
           >Player {{ i }} Strategy</label
         >
@@ -64,7 +70,8 @@
       </div>
     </div>
     <p v-else class="text-emerald-400/70 text-xs italic">
-      Each game will assign a random strategy to every player from the pool of {{ allStrategies.length }} strategies.
+      Each game will assign a random strategy to every player from the pool of
+      {{ allStrategies.length }} strategies.
     </p>
 
     <!-- Number of games -->
