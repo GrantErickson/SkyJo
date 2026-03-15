@@ -20,8 +20,8 @@ import {
   Tooltip,
   Legend,
 } from "chart.js";
-import type { SimulationResult } from "~/engine/types";
 import { STRATEGY_NAMES } from "~/engine/constants";
+import { useSimStore } from "~/stores/simStore";
 
 ChartJS.register(
   CategoryScale,
@@ -32,9 +32,8 @@ ChartJS.register(
   Legend,
 );
 
-const props = defineProps<{
-  result: SimulationResult;
-}>();
+const simStore = useSimStore();
+const result = computed(() => simStore.result!);
 
 const chartColors = [
   "rgba(16, 185, 129, 0.5)",
@@ -49,7 +48,7 @@ const chartData = computed(() => {
 
   return {
     labels,
-    datasets: props.result.playerResults.map((pr, idx) => ({
+    datasets: result.value.playerResults.map((pr, idx) => ({
       label: STRATEGY_NAMES[pr.strategyId],
       data: pr.scoreDistribution,
       backgroundColor: chartColors[idx % chartColors.length],

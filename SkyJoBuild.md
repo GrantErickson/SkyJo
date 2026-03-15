@@ -29,9 +29,9 @@ SkyJo is a client-side card game built with Nuxt 3 where a human player competes
 **Key Goals:**
 
 - Faithful implementation of SkyJo rules (with column removal always enabled)
-- Polished, animated UI with Tailwind CSS
-- 6 built-in AI strategies that can be tuned via discovery data
-- Self-play mode with visual analytics and data export
+- Responsive, animated UI with Tailwind CSS
+- 8 built-in AI strategies that can be tuned via discovery data
+- Self-play mode with rich visual analytics and data export
 
 ---
 
@@ -42,14 +42,13 @@ SkyJo is a client-side card game built with Nuxt 3 where a human player competes
 | Framework  | **Nuxt 3** (SPA mode, `ssr: false`)       | Vue 3 app framework, file-based routing |
 | Styling    | **Tailwind CSS 3**                        | Utility-first styling                   |
 | State      | **Pinia**                                 | Reactive state management               |
-| Charts     | **Chart.js + vue-chartjs**                | Self-play result visualization          |
+| Charts     | **Chart.js + vue-chartjs**                | Simulation result visualization         |
 | Animations | **Vue transitions + CSS**                 | Card flips, score animations            |
-| Icons      | **@heroicons/vue** or **lucide-vue-next** | UI icons                                |
-| Export     | **json2csv** / native Blob API            | CSV/JSON data export                    |
-| Testing    | **Vitest + @vue/test-utils**              | Unit & component tests                  |
-| Linting    | **ESLint + Prettier**                     | Code quality                            |
+| Icons      | **lucide-vue-next**                       | UI icons                                |
+| Export     | Native Blob API                           | CSV/JSON data export                    |
+| Testing    | **Vitest**                                | Unit tests                              |
 
-**No server-side rendering.** Nuxt config will set `ssr: false` to generate a pure SPA.
+**No server-side rendering.** Nuxt config sets `ssr: false` to generate a pure SPA.
 
 ---
 
@@ -130,10 +129,10 @@ If at any point a player has **3 revealed cards of the same value in a vertical 
 │  ┌──────────┐  ┌──────────┐  ┌───────────────────┐ │
 │  │  Pages   │  │Components│  │   Composables      │ │
 │  │          │  │          │  │                     │ │
-│  │ - Home   │  │ - Board  │  │ - useGameEngine()  │ │
-│  │ - Play   │  │ - Card   │  │ - useAI()          │ │
-│  │ - SimRun │  │ - Hand   │  │ - useSimulation()  │ │
-│  │ - Results│  │ - Score  │  │ - useAnimations()  │ │
+│  │ - Home   │  │ - Board  │  │ - useAI()          │ │
+│  │ - Play   │  │ - Card   │  │                     │ │
+│  │ - Strats │  │ - Hand   │  │                     │ │
+│  │ - SimRun │  │ - Score  │  │                     │ │
 │  │          │  │ - Charts │  │                     │ │
 │  └────┬─────┘  └────┬─────┘  └────────┬──────────┘ │
 │       │              │                 │            │
@@ -143,7 +142,6 @@ If at any point a player has **3 revealed cards of the same value in a vertical 
 │              │  Pinia Stores  │                     │
 │              │                │                     │
 │              │ - gameStore    │                     │
-│              │ - playerStore  │                     │
 │              │ - simStore     │                     │
 │              │ - settingsStore│                     │
 │              └───────┬────────┘                     │
@@ -168,7 +166,7 @@ If at any point a player has **3 revealed cards of the same value in a vertical 
 ## Project Structure
 
 ```
-skyjo/
+skyjo-app/
 ├── nuxt.config.ts
 ├── tailwind.config.ts
 ├── package.json
@@ -179,59 +177,51 @@ skyjo/
 │   └── css/
 │       └── main.css                # Tailwind directives + custom styles
 │
-├── public/
-│   └── favicon.ico
-│
 ├── pages/
 │   ├── index.vue                   # Home / main menu
 │   ├── play.vue                    # Game board (human vs AI)
-│   ├── simulation.vue              # Self-play configuration
-│   └── results.vue                 # Self-play results with charts
+│   ├── strategies.vue              # Strategy descriptions and comparison
+│   └── simulation.vue              # Self-play config, progress, and results
 │
 ├── components/
 │   ├── game/
-│   │   ├── GameBoard.vue           # Main game board layout
-│   │   ├── PlayerGrid.vue          # A single player's 3×4 card grid
+│   │   ├── GameBoard.vue           # Main game board layout (viewport-fitting flex)
+│   │   ├── PlayerGrid.vue          # A single player's 3×4 card grid (supports compact mode)
 │   │   ├── CardSlot.vue            # Individual card slot (handles flip animation)
-│   │   ├── Card.vue                # Card face rendering (value + color)
+│   │   ├── Card.vue                # Card face rendering (value + color, supports compact)
 │   │   ├── DrawPile.vue            # Draw pile with card count
 │   │   ├── DiscardPile.vue         # Discard pile showing top card
 │   │   ├── ActionPanel.vue         # Human action buttons / prompts
 │   │   ├── Scoreboard.vue          # Current round + cumulative scores
+│   │   ├── GameSetup.vue           # Pre-game: select opponents & strategies
 │   │   ├── RoundSummary.vue        # End-of-round overlay with scores
 │   │   └── GameOverOverlay.vue     # End-of-game overlay with final standings
 │   │
 │   ├── simulation/
 │   │   ├── SimulationConfig.vue    # Config panel: strategies, player count, game count
 │   │   ├── SimulationProgress.vue  # Progress bar during simulation run
+│   │   ├── SimulationSummary.vue   # Summary stat cards (games, duration, best strategy)
 │   │   ├── ResultsTable.vue        # Tabular results
-│   │   ├── WinRateChart.vue        # Bar/pie chart of win rates
+│   │   ├── WinRateChart.vue        # Bar chart of win rates
+│   │   ├── WinRateConvergence.vue  # Line chart showing win rate over games
 │   │   ├── ScoreDistribution.vue   # Histogram of score distributions
-│   │   ├── StrategyComparison.vue  # Comparison across strategies
+│   │   ├── ScoreTrend.vue          # Line chart of score moving average
+│   │   ├── ScoreRange.vue          # Box-plot style min/avg/max visualization
+│   │   ├── RoundsDistribution.vue  # Histogram of rounds per game
+│   │   ├── StrategyComparison.vue  # Radar chart across strategy metrics
 │   │   └── ExportButton.vue        # Export results as CSV/JSON
 │   │
-│   ├── menu/
-│   │   ├── MainMenu.vue            # Main menu with play/simulate options
-│   │   ├── GameSetup.vue           # Player count + strategy selection
-│   │   └── StrategySelector.vue    # Strategy picker for each AI player
-│   │
 │   └── ui/
-│       ├── AppHeader.vue           # Top navigation bar
+│       ├── AppHeader.vue           # Top navigation bar (Play, Strategies, Simulate)
 │       ├── AppFooter.vue           # Footer
 │       ├── BaseButton.vue          # Styled button component
-│       ├── BaseModal.vue           # Modal overlay
-│       └── Tooltip.vue             # Hover tooltip
+│       └── BaseModal.vue           # Modal overlay
 │
 ├── composables/
-│   ├── useGameEngine.ts            # Wraps game engine for reactive play
-│   ├── useAI.ts                    # AI turn execution with delays for UX
-│   ├── useSimulation.ts            # Self-play orchestration (Web Worker bridge)
-│   ├── useAnimations.ts            # Animation timing helpers
-│   └── useExport.ts                # Data export utilities
+│   └── useAI.ts                    # AI turn execution with delays for UX
 │
 ├── stores/
 │   ├── gameStore.ts                # Current game state (round, turn, cards)
-│   ├── playerStore.ts              # Player info, scores, strategies
 │   ├── simStore.ts                 # Simulation config, progress, results
 │   └── settingsStore.ts            # App settings (animation speed, etc.)
 │
@@ -241,26 +231,24 @@ skyjo/
 │   ├── scoring.ts                  # Score calculation, penalty logic
 │   ├── grid.ts                     # Grid operations (swap, flip, column check)
 │   ├── types.ts                    # All TypeScript interfaces & types
-│   ├── constants.ts                # Card distribution, grid dimensions
-│   ├── simulation.ts               # Headless game loop for self-play
-│   ├── simulationWorker.ts         # Web Worker entry for parallel simulation
+│   ├── constants.ts                # Card distribution, grid dimensions, strategy configs
+│   ├── simulation.ts               # Headless game loop (sync + async chunked with progress)
 │   └── ai/
-│       ├── types.ts                # Strategy interface & config types
 │       ├── random.ts               # Random strategy
 │       ├── greedy.ts               # Greedy strategy
 │       ├── conservative.ts         # Conservative strategy
 │       ├── aggressive.ts           # Aggressive strategy
 │       ├── balanced.ts             # Balanced strategy
 │       ├── memory.ts               # Memory/card-counting strategy
+│       ├── column-hunter.ts        # Column-focused strategy
+│       ├── risk-taker.ts           # High-variance gambling strategy
 │       └── index.ts                # Strategy registry & factory
 │
-├── utils/
-│   ├── colors.ts                   # Card color mapping by value
-│   ├── formatters.ts               # Number/score formatters
-│   └── random.ts                   # Seeded random for reproducible sims
-│
-└── workers/
-    └── simulation.worker.ts        # Web Worker for running simulations off main thread
+└── utils/
+    ├── colors.ts                   # Card color mapping by value
+    ├── formatters.ts               # Number/score formatters
+    ├── random.ts                   # Seeded random for reproducible sims
+    └── stats.ts                    # Statistical helpers (mean, median, stdDev)
 ```
 
 ---
@@ -317,7 +305,9 @@ export type StrategyId =
   | "conservative"
   | "aggressive"
   | "balanced"
-  | "memory";
+  | "memory"
+  | "column-hunter"
+  | "risk-taker";
 
 export interface GameState {
   players: Player[];
@@ -363,7 +353,7 @@ export interface RoundResult {
 }
 ```
 
-### `engine/ai/types.ts`
+### `engine/types.ts` (Strategy types)
 
 ```typescript
 import type { GameState, TurnAction, Player, Card, StrategyId } from "../types";
@@ -453,6 +443,22 @@ export const DEFAULT_CONFIGS: Record<StrategyId, StrategyConfig> = {
     roundEndAggressiveness: 0.4,
     explorationRate: 0.03,
   },
+  "column-hunter": {
+    highCardThreshold: 6,
+    lowCardThreshold: 3,
+    columnMatchWeight: 0.95,
+    flipRiskTolerance: 0.6,
+    roundEndAggressiveness: 0.3,
+    explorationRate: 0.05,
+  },
+  "risk-taker": {
+    highCardThreshold: 3,
+    lowCardThreshold: 0,
+    columnMatchWeight: 0.2,
+    flipRiskTolerance: 0.1,
+    roundEndAggressiveness: 0.9,
+    explorationRate: 0.15,
+  },
 };
 ```
 
@@ -512,10 +518,9 @@ Manages the active game state for the interactive play mode.
 **State:**
 
 - `gameState: GameState | null` — current game state
-- `turnPhase: 'idle' | 'awaiting-draw-or-discard' | 'awaiting-swap-target' | 'awaiting-flip-target'` — UI turn phases for human player
+- `turnPhase: 'idle' | 'awaiting-source' | 'awaiting-swap-target' | 'awaiting-flip-target'` — UI turn phases for human player
 - `drawnCard: Card | null` — card the human drew (before deciding)
 - `selectedAction: 'discard' | 'draw' | null`
-- `animationQueue: AnimationEvent[]` — queued animations to play
 - `isAnimating: boolean`
 - `gameSpeed: 'slow' | 'normal' | 'fast'` — controls AI turn delay
 
@@ -551,9 +556,8 @@ Manages self-play simulation state.
 
 **Actions:**
 
-- `setConfig(config)` — updates simulation config
-- `startSimulation()` — launches Web Worker, begins simulation
-- `cancelSimulation()` — terminates the worker
+- `startSimulation()` — launches async chunked simulation
+- `cancelSimulation()` — stops the simulation
 - `exportResults(format: 'csv' | 'json')` — exports result data
 
 ### `stores/settingsStore.ts`
@@ -949,6 +953,22 @@ All strategies implement the `Strategy` interface. Each has a `StrategyConfig` w
 - Can estimate likelihood of draw pile cards being beneficial.
 - Makes column-match decisions based on probability of completing a column.
 
+#### 7. Column Hunter (`column-hunter.ts`)
+
+- **Obsessively pursues column matches** to remove entire columns from the grid.
+- **Prioritizes:** Column completion > column pair building > low card taking > match-potential flipping.
+- Willing to sacrifice short-term score improvements to build matching columns.
+- Takes discards that match an existing column pair, even if the card value is moderate.
+- When flipping face-down cards, targets columns with the best match potential.
+
+#### 8. Risk Taker (`risk-taker.ts`)
+
+- **High-variance gambling strategy** — can win big or lose big.
+- Only takes very low discards (value ≤ 0); otherwise draws from the pile.
+- Aggressively draws and swaps with face-down cards, gambling on unknown values.
+- Ends rounds quickly when ahead, betting opponents have worse hidden cards.
+- High exploration rate leads to unpredictable play patterns.
+
 ### Strategy Config Tuning
 
 Strategies accept a `StrategyConfig` object. The self-play simulation can run parameter sweeps:
@@ -972,20 +992,37 @@ After a discovery run, results can be saved and loaded as "tuned" configs for st
 ### Architecture
 
 ```
-Main Thread                          Web Worker
-┌──────────────┐    postMessage      ┌─────────────────────┐
-│ SimStore     │ ──────────────────► │ simulation.worker.ts │
-│              │                     │                      │
-│ config ──────┤                     │  for each game:      │
-│              │                     │    initializeRound() │
-│ progress ◄───┤  progress updates   │    loop turns        │
-│              │ ◄────────────────── │    score round       │
-│ result ◄─────┤  final result       │    check game over   │
-│              │ ◄────────────────── │  aggregate stats     │
-└──────────────┘                     └─────────────────────┘
+Main Thread (async chunked execution)
+┌──────────────────────────────────────────────┐
+│ SimStore                                      │
+│                                              │
+│ config ───► runSimulationAsync()             │
+│              │                               │
+│              ├── batch of ~50 games          │
+│              ├── yieldToUI() (setTimeout 0)  │
+│              ├── batch of ~50 games          │
+│              ├── yieldToUI() → progress      │
+│              ├── ...                         │
+│              └── finalizeResults()           │
+│                                              │
+│ progress ◄── onProgress callback             │
+│ result ◄──── final SimulationResult          │
+└──────────────────────────────────────────────┘
 ```
 
-**Why Web Workers?** Running 10,000+ games blocks the main thread. A Web Worker keeps the UI responsive while showing progress.
+**Why async chunked execution?** Running thousands of games blocks the main thread. The simulation runs in batches of ~50 games, yielding to the browser event loop between batches via `setTimeout(0)`. This keeps the UI responsive and allows Vue to re-render progress updates.
+
+### `engine/simulation.ts`
+
+Exports two entry points:
+- `runSimulation(config)` — synchronous, for testing
+- `runSimulationAsync(config, onProgress)` — async chunked, for the UI
+
+Internal helpers:
+- `createSimulationContext(config)` — sets up strategies, RNG, accumulators
+- `runSingleGame(context)` — plays one complete game and records results
+- `finalizeResults(context)` — aggregates stats into a `SimulationResult`
+- `yieldToUI()` — `new Promise(resolve => setTimeout(resolve, 0))`
 
 ### `engine/simulation.ts`
 
@@ -1268,18 +1305,16 @@ Full `SimulationResult` object serialized.
 
 ```
 app.vue
-├── AppHeader.vue
+├── AppHeader.vue (Play, Strategies, Simulate nav)
 ├── <NuxtPage />
 │   ├── index.vue (Home)
-│   │   ├── MainMenu.vue
-│   │   └── (route to /play or /simulation)
+│   │   └── (route to /play, /strategies, or /simulation)
 │   │
 │   ├── play.vue (Game)
 │   │   ├── GameSetup.vue (pre-game: select opponents & strategies)
-│   │   │   └── StrategySelector.vue (×3, one per AI slot)
-│   │   └── GameBoard.vue (during game)
+│   │   └── GameBoard.vue (during game — viewport-fitting flex layout)
 │   │       ├── Scoreboard.vue
-│   │       ├── PlayerGrid.vue (×N, one per player)
+│   │       ├── PlayerGrid.vue (×N, one per player; opponents use compact mode)
 │   │       │   └── CardSlot.vue (×12 per grid)
 │   │       │       └── Card.vue
 │   │       ├── DrawPile.vue
@@ -1289,15 +1324,20 @@ app.vue
 │   │       ├── RoundSummary.vue (modal overlay after round)
 │   │       └── GameOverOverlay.vue (modal overlay after game)
 │   │
-│   ├── simulation.vue
-│   │   ├── SimulationConfig.vue
-│   │   │   └── StrategySelector.vue (×4)
-│   │   └── SimulationProgress.vue
+│   ├── strategies.vue
+│   │   └── (strategy cards with icons, difficulty, traits)
 │   │
-│   └── results.vue
+│   └── simulation.vue
+│       ├── SimulationConfig.vue
+│       ├── SimulationProgress.vue
+│       ├── SimulationSummary.vue
 │       ├── ResultsTable.vue
 │       ├── WinRateChart.vue
+│       ├── WinRateConvergence.vue
 │       ├── ScoreDistribution.vue
+│       ├── ScoreTrend.vue
+│       ├── ScoreRange.vue
+│       ├── RoundsDistribution.vue
 │       ├── StrategyComparison.vue
 │       └── ExportButton.vue
 │
@@ -1353,10 +1393,10 @@ app.vue
 
 | Route         | Page             | Description                                                      |
 | ------------- | ---------------- | ---------------------------------------------------------------- |
-| `/`           | `index.vue`      | Main menu with Play and Simulate options                         |
+| `/`           | `index.vue`      | Main menu with Play, Strategies, and Simulate options            |
 | `/play`       | `play.vue`       | Game setup → active game board                                   |
-| `/simulation` | `simulation.vue` | Configure and run self-play simulation                           |
-| `/results`    | `results.vue`    | View simulation results (redirects to /simulation if no results) |
+| `/strategies` | `strategies.vue` | Strategy descriptions, difficulty ratings, and trait breakdowns  |
+| `/simulation` | `simulation.vue` | Configure, run, and view self-play simulation results inline     |
 
 All routes are client-side only (SPA mode).
 
@@ -1440,75 +1480,75 @@ export default defineNuxtConfig({
 
 ## Implementation Phases
 
-### Phase 1: Foundation
+### Phase 1: Foundation ✅
 
-- [ ] Initialize Nuxt project with Tailwind, Pinia, TypeScript
-- [ ] Implement `engine/types.ts`, `engine/constants.ts`
-- [ ] Implement `engine/deck.ts` with tests
-- [ ] Implement `engine/grid.ts` with tests
-- [ ] Implement `engine/scoring.ts` with tests
-- [ ] Implement `engine/rules.ts` with tests
+- [x] Initialize Nuxt project with Tailwind, Pinia, TypeScript
+- [x] Implement `engine/types.ts`, `engine/constants.ts`
+- [x] Implement `engine/deck.ts` with tests
+- [x] Implement `engine/grid.ts` with tests
+- [x] Implement `engine/scoring.ts` with tests
+- [x] Implement `engine/rules.ts` with tests
 
-### Phase 2: AI Strategies
+### Phase 2: AI Strategies ✅
 
-- [ ] Implement `engine/ai/types.ts` with `StrategyConfig`
-- [ ] Implement Random strategy with tests
-- [ ] Implement Greedy strategy with tests
-- [ ] Implement Conservative strategy with tests
-- [ ] Implement Aggressive strategy with tests
-- [ ] Implement Balanced strategy with tests
-- [ ] Implement Memory strategy with tests
-- [ ] Strategy registry and factory (`engine/ai/index.ts`)
+- [x] Implement `StrategyConfig` in `engine/types.ts`
+- [x] Implement Random strategy with tests
+- [x] Implement Greedy strategy with tests
+- [x] Implement Conservative strategy with tests
+- [x] Implement Aggressive strategy with tests
+- [x] Implement Balanced strategy with tests
+- [x] Implement Memory strategy with tests
+- [x] Implement Column Hunter strategy
+- [x] Implement Risk Taker strategy
+- [x] Strategy registry and factory (`engine/ai/index.ts`)
 
-### Phase 3: Game UI
+### Phase 3: Game UI ✅
 
-- [ ] Build `Card.vue` and `CardSlot.vue` with flip animation
-- [ ] Build `PlayerGrid.vue`
-- [ ] Build `DrawPile.vue` and `DiscardPile.vue`
-- [ ] Build `GameBoard.vue` layout
-- [ ] Build `ActionPanel.vue` for human interaction
-- [ ] Build `Scoreboard.vue`
-- [ ] Implement `gameStore.ts` and `playerStore.ts`
-- [ ] Implement `useGameEngine.ts` composable
-- [ ] Wire human turn flow (click draw/discard → select target → execute)
-- [ ] Implement AI turn execution with `useAI.ts` and visual delays
-- [ ] Build `RoundSummary.vue` and `GameOverOverlay.vue`
-- [ ] Build `GameSetup.vue` with `StrategySelector.vue`
+- [x] Build `Card.vue` and `CardSlot.vue` with flip animation
+- [x] Build `PlayerGrid.vue` with compact mode for opponents
+- [x] Build `DrawPile.vue` and `DiscardPile.vue`
+- [x] Build `GameBoard.vue` layout (viewport-fitting flex design)
+- [x] Build `ActionPanel.vue` for human interaction
+- [x] Build `Scoreboard.vue`
+- [x] Implement `gameStore.ts`
+- [x] Wire human turn flow (click draw/discard → select target → execute)
+- [x] Implement AI turn execution with `useAI.ts` and visual delays
+- [x] Build `RoundSummary.vue` and `GameOverOverlay.vue`
+- [x] Build `GameSetup.vue`
 
-### Phase 4: Main Menu & Navigation
+### Phase 4: Navigation & Pages ✅
 
-- [ ] Build `MainMenu.vue` and `AppHeader.vue`
-- [ ] Set up page routing (`index.vue`, `play.vue`, etc.)
-- [ ] Build `settingsStore.ts` with localStorage persistence
-- [ ] Implement game speed controls
+- [x] Build `AppHeader.vue` with Play, Strategies, Simulate nav
+- [x] Set up page routing (`index.vue`, `play.vue`, `strategies.vue`, `simulation.vue`)
+- [x] Build `settingsStore.ts` with localStorage persistence
+- [x] Build strategies page with descriptions, difficulty, and traits
 
-### Phase 5: Self-Play Simulation
+### Phase 5: Self-Play Simulation ✅
 
-- [ ] Implement `engine/simulation.ts` headless game loop
-- [ ] Implement Web Worker (`workers/simulation.worker.ts`)
-- [ ] Build `SimulationConfig.vue`
-- [ ] Build `SimulationProgress.vue`
-- [ ] Implement `simStore.ts` with worker communication
-- [ ] Implement `useSimulation.ts` composable
+- [x] Implement `engine/simulation.ts` headless game loop (sync + async chunked)
+- [x] Build `SimulationConfig.vue`
+- [x] Build `SimulationProgress.vue`
+- [x] Implement `simStore.ts` with async chunked simulation
 
-### Phase 6: Results & Analytics
+### Phase 6: Results & Analytics ✅
 
-- [ ] Install and configure Chart.js + vue-chartjs
-- [ ] Build `ResultsTable.vue`
-- [ ] Build `WinRateChart.vue` (bar chart)
-- [ ] Build `ScoreDistribution.vue` (histogram)
-- [ ] Build `StrategyComparison.vue`
-- [ ] Implement recommendation generation
-- [ ] Build `ExportButton.vue` with CSV and JSON export
-- [ ] Implement strategy config tuning from results
+- [x] Install and configure Chart.js + vue-chartjs
+- [x] Build `SimulationSummary.vue` (stat cards)
+- [x] Build `ResultsTable.vue`
+- [x] Build `WinRateChart.vue` (bar chart)
+- [x] Build `WinRateConvergence.vue` (line chart)
+- [x] Build `ScoreDistribution.vue` (histogram)
+- [x] Build `ScoreTrend.vue` (line chart)
+- [x] Build `ScoreRange.vue` (box-plot visualization)
+- [x] Build `RoundsDistribution.vue` (histogram)
+- [x] Build `StrategyComparison.vue` (radar chart)
+- [x] Implement recommendation generation
+- [x] Build `ExportButton.vue` with CSV and JSON export
 
-### Phase 7: Polish & Testing
+### Phase 7: Polish ✅
 
-- [ ] Refine all animations (card flip, swap, column removal, scores)
-- [ ] Add responsive design for tablet/mobile
-- [ ] Dark/light theme toggle
-- [ ] Comprehensive unit test suite
-- [ ] Integration tests for full game flow
-- [ ] Performance optimization for simulation (batch processing)
-- [ ] Error handling and edge cases
-- [ ] Final visual polish and UX review
+- [x] Card flip animations
+- [x] Responsive design with viewport-fitting game board
+- [x] Color-coded card values
+- [x] Comprehensive game flow (setup → play → round scoring → game over)
+- [x] Async simulation with progress bar updates

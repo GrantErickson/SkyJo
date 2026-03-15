@@ -5,7 +5,7 @@ import type {
   SimulationResult,
   StrategyId,
 } from "~/engine/types";
-import { runSimulation } from "~/engine/simulation";
+import { runSimulation, runSimulationAsync } from "~/engine/simulation";
 
 export const useSimStore = defineStore("sim", () => {
   const config = ref<SimulationConfig>({
@@ -44,7 +44,6 @@ export const useSimStore = defineStore("sim", () => {
     result.value = null;
 
     try {
-      // Run synchronously in chunks with setTimeout to keep UI responsive
       const simResult = await runSimulationAsync(
         config.value,
         (completed, total) => {
@@ -108,19 +107,6 @@ export const useSimStore = defineStore("sim", () => {
     exportResults,
   };
 });
-
-async function runSimulationAsync(
-  config: SimulationConfig,
-  onProgress: (completed: number, total: number) => void,
-): Promise<SimulationResult> {
-  // Run in chunks to keep UI responsive
-  return new Promise((resolve) => {
-    setTimeout(() => {
-      const result = runSimulation(config, onProgress);
-      resolve(result);
-    }, 50);
-  });
-}
 
 function generateCSV(result: SimulationResult): string {
   const headers = ["game", "winner_strategy", "num_rounds"];

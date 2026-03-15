@@ -20,13 +20,31 @@
         </div>
       </div>
 
+      <!-- Summary stats -->
+      <SimulationSummary />
+
+      <!-- Results table -->
       <ResultsTable class="mb-8" />
 
-      <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
+      <!-- Row 1: Win Rate + Score Distribution -->
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
         <WinRateChart />
         <ScoreDistribution />
       </div>
 
+      <!-- Row 2: Win Rate Convergence + Avg Score Trend -->
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
+        <SimulationWinRateConvergence />
+        <SimulationScoreTrend />
+      </div>
+
+      <!-- Row 3: Score Range + Rounds Distribution -->
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
+        <SimulationScoreRange />
+        <SimulationRoundsDistribution />
+      </div>
+
+      <!-- Strategy Comparison Radar -->
       <StrategyComparison class="mb-8" />
 
       <!-- Recommendation -->

@@ -20,8 +20,8 @@ import {
   Tooltip,
   Legend,
 } from "chart.js";
-import type { SimulationResult } from "~/engine/types";
 import { STRATEGY_NAMES } from "~/engine/constants";
+import { useSimStore } from "~/stores/simStore";
 
 ChartJS.register(
   RadialLinearScale,
@@ -32,9 +32,8 @@ ChartJS.register(
   Legend,
 );
 
-const props = defineProps<{
-  result: SimulationResult;
-}>();
+const simStore = useSimStore();
+const result = computed(() => simStore.result!);
 
 const chartColors = [
   { bg: "rgba(16, 185, 129, 0.2)", border: "rgba(16, 185, 129, 0.8)" },
@@ -45,13 +44,13 @@ const chartColors = [
 
 const chartData = computed(() => {
   const maxScore =
-    Math.max(...props.result.playerResults.map((p) => p.maxScore)) || 1;
+    Math.max(...result.value.playerResults.map((p) => p.maxScore)) || 1;
   const maxWinRate =
-    Math.max(...props.result.playerResults.map((p) => p.winRate)) || 1;
+    Math.max(...result.value.playerResults.map((p) => p.winRate)) || 1;
 
   return {
     labels: ["Win Rate", "Low Avg Score", "Consistency", "Best Min", "Low Max"],
-    datasets: props.result.playerResults.map((pr, idx) => ({
+    datasets: result.value.playerResults.map((pr, idx) => ({
       label: STRATEGY_NAMES[pr.strategyId],
       data: [
         (pr.winRate / maxWinRate) * 100,

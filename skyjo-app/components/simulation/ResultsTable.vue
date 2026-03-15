@@ -66,17 +66,16 @@
 </template>
 
 <script setup lang="ts">
-import type { SimulationResult } from "~/engine/types";
 import { STRATEGY_NAMES } from "~/engine/constants";
 import { formatNumber, formatPercent } from "~/utils/formatters";
+import { useSimStore } from "~/stores/simStore";
 
-const props = defineProps<{
-  result: SimulationResult;
-}>();
+const simStore = useSimStore();
+const result = computed(() => simStore.result!);
 
 const strategyNames = STRATEGY_NAMES;
 
 const sortedResults = computed(() => {
-  return [...props.result.playerResults].sort((a, b) => b.winRate - a.winRate);
+  return [...result.value.playerResults].sort((a, b) => b.winRate - a.winRate);
 });
 </script>

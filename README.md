@@ -1,21 +1,25 @@
 # SkyJo Card Game
 
-A browser-based implementation of the SkyJo card game built with Nuxt 3. Play against AI opponents with six distinct strategies, or run thousands of simulated games to discover which strategy reigns supreme.
+A browser-based implementation of the SkyJo card game built with Nuxt 3. Play against AI opponents with eight distinct strategies, or run thousands of simulated games to discover which strategy reigns supreme.
 
 ## Features
 
 - **Play Mode** — Play against 1–3 AI opponents, each using a selectable strategy
-- **Simulation Mode** — Pit AI strategies against each other over configurable batches of games, with charts, stats, and CSV/JSON export
-- **6 AI Strategies**
+- **Simulation Mode** — Pit AI strategies against each other over configurable batches of games, with rich analytics and CSV/JSON export
+- **Strategies Page** — Browse detailed descriptions of all 8 AI strategies with difficulty ratings and trait breakdowns
+- **8 AI Strategies**
   - **Random** — Baseline; makes valid moves at random
   - **Greedy** — Takes low-value discards, replaces highest known cards
   - **Conservative** — Gathers information first, only swaps for significant improvements
   - **Aggressive** — Pursues column matches to remove cards, ends rounds quickly
   - **Balanced** — Adapts between conservative (early) and aggressive (late) play
   - **Memory** — Tracks seen cards and uses probability to make optimal decisions
+  - **Column Hunter** — Obsessively pursues column matches to remove entire columns
+  - **Risk Taker** — Gambles on face-down cards and draws aggressively; high variance
 - **Column Removal** — Three matching face-up cards in a column are automatically removed
 - **Score Doubling Penalty** — The player who ends a round pays double if they don't have the lowest score
-- **Polished UI** — Card flip animations, color-coded values, responsive layout
+- **Simulation Analytics** — Summary stats, win rate convergence, score trends, score range, rounds distribution, strategy radar comparison, and more
+- **Responsive UI** — Viewport-fitting game board, compact opponent grids, card flip animations, color-coded values
 
 ## Tech Stack
 
@@ -71,7 +75,7 @@ skyjo-app/
 │   ├── grid.ts          # Grid operations (flip, swap, column removal)
 │   ├── scoring.ts       # Round scoring with doubling penalty
 │   ├── rules.ts         # Turn execution, round initialization
-│   ├── simulation.ts    # Headless game loop for batch simulation
+│   ├── simulation.ts    # Headless game loop (sync + async chunked)
 │   └── ai/              # Strategy implementations
 │       ├── index.ts     # Strategy factory and registry
 │       ├── random.ts
@@ -79,7 +83,9 @@ skyjo-app/
 │       ├── conservative.ts
 │       ├── aggressive.ts
 │       ├── balanced.ts
-│       └── memory.ts
+│       ├── memory.ts
+│       ├── column-hunter.ts
+│       └── risk-taker.ts
 ├── stores/              # Pinia state management
 │   ├── gameStore.ts     # Interactive game state
 │   ├── simStore.ts      # Simulation config, progress, results
@@ -87,9 +93,9 @@ skyjo-app/
 ├── components/
 │   ├── ui/              # Reusable UI primitives (button, modal, header, footer)
 │   ├── game/            # Game board, cards, action panel, scoreboard
-│   └── simulation/      # Config form, progress bar, charts, export
+│   └── simulation/      # Config, progress, charts (12 components), export
 ├── composables/         # Vue composables (AI turn runner)
-├── pages/               # File-based routing (index, play, simulation)
+├── pages/               # File-based routing (index, play, strategies, simulation)
 ├── utils/               # Helpers (seeded RNG, stats, colors, formatters)
 └── assets/css/          # Tailwind entry point with card animations
 ```
@@ -100,8 +106,8 @@ skyjo-app/
 2. Choose the number of AI opponents (1–3) and select a strategy for each
 3. **Setup phase**: Click two cards in your grid to flip them face-up
 4. **Each turn**, choose one action:
+   - **Draw from the pile** — then either swap it with a grid card, or discard it and flip a face-down card
    - **Take the discard** — swap it with any card in your grid
-   - **Draw from the deck** — then either swap it with a grid card, or discard it and flip a face-down card
 5. When any player reveals all their cards, each other player gets one final turn
 6. The round ends and scores are tallied — lowest score wins
 7. The game ends when any player reaches 100+ cumulative points

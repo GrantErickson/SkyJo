@@ -16,6 +16,13 @@
       </p>
       <div class="flex gap-3 justify-center">
         <UiBaseButton
+          variant="secondary"
+          size="md"
+          @click="gameStore.selectSource('draw')"
+        >
+          Draw from Pile
+        </UiBaseButton>
+        <UiBaseButton
           variant="primary"
           size="md"
           @click="gameStore.selectSource('discard')"
@@ -24,13 +31,6 @@
           <span v-if="gameStore.topDiscard" class="ml-1 opacity-75"
             >({{ gameStore.topDiscard.value }})</span
           >
-        </UiBaseButton>
-        <UiBaseButton
-          variant="secondary"
-          size="md"
-          @click="gameStore.selectSource('draw')"
-        >
-          Draw from Pile
         </UiBaseButton>
       </div>
     </template>
