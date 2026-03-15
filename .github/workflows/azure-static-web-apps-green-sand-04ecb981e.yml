@@ -38,7 +38,7 @@ jobs:
           action: "upload"
           app_location: "./skyjo-app"
           api_location: ""
-          output_location: ".output/public"
+          output_location: "./skyjo-app/.output/public"
           skip_app_build: true
 
   close_pull_request_job:
