@@ -14,9 +14,9 @@
         <h2 class="text-2xl font-semibold text-white">Results</h2>
         <div class="flex gap-3">
           <ExportButton />
-          <BaseButton variant="secondary" size="sm" @click="clearAndReset()">
+          <UiBaseButton variant="primary" size="sm" @click="clearAndReset()">
             New Simulation
-          </BaseButton>
+          </UiBaseButton>
         </div>
       </div>
 

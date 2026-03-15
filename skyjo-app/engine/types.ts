@@ -43,7 +43,9 @@ export type StrategyId =
   | "conservative"
   | "aggressive"
   | "balanced"
-  | "memory";
+  | "memory"
+  | "column-hunter"
+  | "risk-taker";
 
 export interface GameState {
   players: Player[];

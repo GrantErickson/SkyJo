@@ -1,6 +1,6 @@
 <template>
   <div
-    class="w-16 h-22 sm:w-18 sm:h-24 rounded-lg border-2 flex items-center justify-center cursor-pointer hover:scale-105 transition-transform shadow-lg"
+    class="w-14 h-20 sm:w-16 sm:h-24 rounded-lg border-2 flex items-center justify-center cursor-pointer hover:scale-105 transition-transform shadow-lg"
     :class="[
       topCard ? colorClass : 'bg-emerald-800/40 border-emerald-700/30',
       topCard ? borderClass : '',

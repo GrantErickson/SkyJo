@@ -23,6 +23,13 @@
           Play
         </NuxtLink>
         <NuxtLink
+          to="/strategies"
+          class="text-emerald-300 hover:text-white transition text-sm font-medium"
+          active-class="text-white"
+        >
+          Strategies
+        </NuxtLink>
+        <NuxtLink
           to="/simulation"
           class="text-emerald-300 hover:text-white transition text-sm font-medium"
           active-class="text-white"

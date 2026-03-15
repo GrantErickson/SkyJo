@@ -6,6 +6,8 @@ import { createConservativeStrategy } from "./conservative";
 import { createAggressiveStrategy } from "./aggressive";
 import { createBalancedStrategy } from "./balanced";
 import { createMemoryStrategy } from "./memory";
+import { createColumnHunterStrategy } from "./column-hunter";
+import { createRiskTakerStrategy } from "./risk-taker";
 
 const strategyFactories: Record<StrategyId, () => Strategy> = {
   random: createRandomStrategy,
@@ -14,6 +16,8 @@ const strategyFactories: Record<StrategyId, () => Strategy> = {
   aggressive: createAggressiveStrategy,
   balanced: createBalancedStrategy,
   memory: createMemoryStrategy,
+  "column-hunter": createColumnHunterStrategy,
+  "risk-taker": createRiskTakerStrategy,
 };
 
 export function getStrategy(
@@ -45,3 +49,5 @@ export { createConservativeStrategy } from "./conservative";
 export { createAggressiveStrategy } from "./aggressive";
 export { createBalancedStrategy } from "./balanced";
 export { createMemoryStrategy } from "./memory";
+export { createColumnHunterStrategy } from "./column-hunter";
+export { createRiskTakerStrategy } from "./risk-taker";

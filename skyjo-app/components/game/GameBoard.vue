@@ -1,61 +1,69 @@
 <template>
-  <div class="space-y-4">
-    <!-- Scoreboard -->
-    <GameScoreboard />
-
-    <!-- Opponent grids -->
-    <div class="grid gap-4" :class="opponentGridClass">
-      <GamePlayerGrid
-        v-for="player in opponents"
-        :key="player.id"
-        :player="player"
-        :is-active="gameStore.currentPlayer?.id === player.id"
-        :is-human="false"
-        highlight-mode="none"
-      />
-    </div>
-
-    <!-- Draw / Discard piles -->
-    <div class="flex items-center justify-center gap-8 py-4">
-      <GameDrawPile
-        :count="gameStore.gameState?.drawPile.length ?? 0"
-        :highlighted="gameStore.turnPhase === 'awaiting-source'"
-        @click="handleDrawClick"
-      />
-      <GameDiscardPile
-        :top-card="gameStore.topDiscard"
-        :highlighted="gameStore.turnPhase === 'awaiting-source'"
-        @click="handleDiscardClick"
-      />
-    </div>
-
-    <!-- Drawn card display -->
-    <div
-      v-if="gameStore.drawnCard && gameStore.selectedSource === 'draw'"
-      class="flex justify-center"
-    >
-      <div
-        class="bg-emerald-700/30 rounded-xl px-4 py-2 border border-emerald-600/30"
-      >
-        <span class="text-emerald-300 text-sm">Drawn: </span>
-        <span class="text-white font-bold text-lg">{{
-          gameStore.drawnCard.value
-        }}</span>
+  <div
+    class="flex flex-col h-[calc(100vh-6rem)] max-h-[calc(100dvh-6rem)] overflow-hidden px-2 py-1 sm:px-4 sm:py-2"
+  >
+    <!-- Top: Scoreboard + Opponents -->
+    <div class="shrink-0 space-y-1">
+      <GameScoreboard />
+      <div class="grid gap-2" :class="opponentGridClass">
+        <GamePlayerGrid
+          v-for="player in opponents"
+          :key="player.id"
+          :player="player"
+          :is-active="gameStore.currentPlayer?.id === player.id"
+          :is-human="false"
+          highlight-mode="none"
+          compact
+        />
       </div>
     </div>
 
-    <!-- Human player grid -->
-    <GamePlayerGrid
-      v-if="gameStore.humanPlayer"
-      :player="gameStore.humanPlayer"
-      :is-active="gameStore.isHumanTurn"
-      :is-human="true"
-      :highlight-mode="humanHighlightMode"
-      @cell-click="handleCellClick"
-    />
+    <!-- Middle: Draw/Discard piles + Action panel (flex-1 to fill space) -->
+    <div
+      class="flex-1 flex flex-col items-center justify-center gap-1 min-h-0 py-1"
+    >
+      <!-- Drawn card display -->
+      <div
+        v-if="gameStore.drawnCard && gameStore.selectedSource === 'draw'"
+        class="shrink-0"
+      >
+        <div
+          class="bg-emerald-700/30 rounded-lg px-3 py-1 border border-emerald-600/30 text-center"
+        >
+          <span class="text-emerald-300 text-xs">Drawn: </span>
+          <span class="text-white font-bold text-base">{{
+            gameStore.drawnCard.value
+          }}</span>
+        </div>
+      </div>
 
-    <!-- Action panel -->
-    <GameActionPanel />
+      <div class="flex items-center justify-center gap-6 shrink-0">
+        <GameDrawPile
+          :count="gameStore.gameState?.drawPile.length ?? 0"
+          :highlighted="gameStore.turnPhase === 'awaiting-source'"
+          @click="handleDrawClick"
+        />
+        <GameDiscardPile
+          :top-card="gameStore.topDiscard"
+          :highlighted="gameStore.turnPhase === 'awaiting-source'"
+          @click="handleDiscardClick"
+        />
+      </div>
+
+      <GameActionPanel class="shrink-0 w-full max-w-md" />
+    </div>
+
+    <!-- Bottom: Human player grid (anchored to bottom) -->
+    <div class="shrink-0">
+      <GamePlayerGrid
+        v-if="gameStore.humanPlayer"
+        :player="gameStore.humanPlayer"
+        :is-active="gameStore.isHumanTurn"
+        :is-human="true"
+        :highlight-mode="humanHighlightMode"
+        @cell-click="handleCellClick"
+      />
+    </div>
 
     <!-- Overlays -->
     <GameRoundSummary />

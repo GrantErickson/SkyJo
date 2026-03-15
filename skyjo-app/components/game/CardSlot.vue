@@ -12,12 +12,16 @@
         :value="cardValue"
         :face-up="faceUp"
         :clickable="clickable"
+        :compact="compact"
         @click="handleClick"
       />
     </template>
     <template v-else>
       <div
-        class="w-14 h-20 sm:w-16 sm:h-22 md:w-18 md:h-24 rounded-lg border-2 border-dashed border-emerald-700/30 opacity-30"
+        class="rounded-lg border-2 border-dashed border-emerald-700/30 opacity-30"
+        :class="
+          compact ? 'w-9 h-14 sm:w-11 sm:h-16' : 'w-11 h-16 sm:w-14 sm:h-20'
+        "
       />
     </template>
   </div>
@@ -30,6 +34,7 @@ const props = defineProps<{
   cell: GridCell;
   highlighted?: boolean;
   clickable?: boolean;
+  compact?: boolean;
 }>();
 
 const emit = defineEmits<{

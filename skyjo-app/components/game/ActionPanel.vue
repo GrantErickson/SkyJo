@@ -1,5 +1,7 @@
 <template>
-  <div class="bg-emerald-800/30 rounded-xl border border-emerald-700/30 p-4">
+  <div
+    class="bg-emerald-800/30 rounded-xl border border-emerald-700/30 p-2 sm:p-3"
+  >
     <!-- Setup phase -->
     <template v-if="gameStore.gameState?.phase === 'setup-flip'">
       <p class="text-emerald-300 text-sm text-center">

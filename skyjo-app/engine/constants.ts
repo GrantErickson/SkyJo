@@ -50,6 +50,8 @@ export const STRATEGY_NAMES: Record<StrategyId, string> = {
   aggressive: "Aggressive",
   balanced: "Balanced",
   memory: "Memory",
+  "column-hunter": "Column Hunter",
+  "risk-taker": "Risk Taker",
 };
 
 export const STRATEGY_DESCRIPTIONS: Record<StrategyId, string> = {
@@ -63,6 +65,10 @@ export const STRATEGY_DESCRIPTIONS: Record<StrategyId, string> = {
   balanced:
     "Adapts strategy based on game phase — conservative early, aggressive late.",
   memory: "Tracks seen cards and uses probability to make optimal decisions.",
+  "column-hunter":
+    "Obsessively pursues column matches to remove entire columns. Sacrifices short-term score for column removal bonuses.",
+  "risk-taker":
+    "Gambles on face-down cards and aggressively draws from the pile. High variance — can win big or lose big.",
 };
 
 export const DEFAULT_CONFIGS: Record<StrategyId, StrategyConfig> = {
@@ -113,5 +119,21 @@ export const DEFAULT_CONFIGS: Record<StrategyId, StrategyConfig> = {
     flipRiskTolerance: 0.4,
     roundEndAggressiveness: 0.4,
     explorationRate: 0.03,
+  },
+  "column-hunter": {
+    highCardThreshold: 6,
+    lowCardThreshold: 3,
+    columnMatchWeight: 0.95,
+    flipRiskTolerance: 0.4,
+    roundEndAggressiveness: 0.3,
+    explorationRate: 0.05,
+  },
+  "risk-taker": {
+    highCardThreshold: 4,
+    lowCardThreshold: 0,
+    columnMatchWeight: 0.3,
+    flipRiskTolerance: 0.1,
+    roundEndAggressiveness: 0.7,
+    explorationRate: 0.15,
   },
 };

@@ -1,24 +1,28 @@
 <template>
   <div
-    class="rounded-xl p-3 transition-all duration-300"
+    class="rounded-xl transition-all duration-300"
     :class="[
+      compact ? 'p-2' : 'p-2 sm:p-3',
       isActive
         ? 'bg-emerald-700/40 ring-2 ring-yellow-400/60'
         : 'bg-emerald-800/30',
       isHuman ? 'border border-emerald-500/40' : 'border border-emerald-700/20',
     ]"
   >
-    <div class="flex items-center justify-between mb-2">
+    <div class="flex items-center justify-between mb-1">
       <div class="flex items-center gap-2">
         <span
-          class="text-sm font-semibold"
-          :class="isHuman ? 'text-emerald-300' : 'text-white/80'"
+          class="font-semibold"
+          :class="[
+            isHuman ? 'text-emerald-300' : 'text-white/80',
+            compact ? 'text-xs' : 'text-sm',
+          ]"
         >
           {{ player.name }}
         </span>
         <span
           v-if="isActive"
-          class="text-xs bg-yellow-400/20 text-yellow-300 px-2 py-0.5 rounded-full"
+          class="text-xs bg-yellow-400/20 text-yellow-300 px-1.5 py-0.5 rounded-full"
         >
           Playing
         </span>
@@ -35,17 +39,18 @@
           v-if="player.cumulativeScore > 0"
           class="text-xs text-white/50 ml-1"
         >
-          (Total: {{ player.cumulativeScore }})
+          ({{ player.cumulativeScore }})
         </span>
       </div>
     </div>
 
     <!-- 3 rows × 4 columns grid -->
-    <div class="grid grid-rows-3 gap-1.5">
+    <div class="grid grid-rows-3" :class="compact ? 'gap-0.5' : 'gap-1'">
       <div
         v-for="(row, rowIdx) in player.grid"
         :key="rowIdx"
-        class="flex gap-1.5 justify-center"
+        class="flex justify-center"
+        :class="compact ? 'gap-0.5' : 'gap-1'"
       >
         <GameCardSlot
           v-for="(cell, colIdx) in row"
@@ -53,6 +58,7 @@
           :cell="cell"
           :highlighted="isCellHighlighted(rowIdx, colIdx)"
           :clickable="isCellClickable(rowIdx, colIdx)"
+          :compact="compact"
           @click="$emit('cellClick', rowIdx, colIdx)"
         />
       </div>
@@ -69,6 +75,7 @@ const props = defineProps<{
   isActive: boolean;
   isHuman: boolean;
   highlightMode?: "all" | "face-down" | "none";
+  compact?: boolean;
 }>();
 
 defineEmits<{
