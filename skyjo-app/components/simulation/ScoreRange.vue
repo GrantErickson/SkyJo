@@ -31,8 +31,7 @@
           <div
             class="absolute h-full rounded opacity-70"
             :style="{
-              left:
-                scalePos(pr.avgScore - pr.stdDeviation) + '%',
+              left: scalePos(pr.avgScore - pr.stdDeviation) + '%',
               width:
                 scalePos(pr.avgScore + pr.stdDeviation) -
                 scalePos(pr.avgScore - pr.stdDeviation) +

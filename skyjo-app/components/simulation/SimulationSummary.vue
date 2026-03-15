@@ -28,9 +28,11 @@ const stats = computed(() => {
     { label: "Avg Rounds/Game", value: avgRounds.toFixed(1) },
     {
       label: "Best Strategy",
-      value: r.playerResults.reduce((a, b) =>
-        a.winRate > b.winRate ? a : b,
-      ).strategyId.charAt(0).toUpperCase() + r.bestStrategy.slice(1),
+      value:
+        r.playerResults
+          .reduce((a, b) => (a.winRate > b.winRate ? a : b))
+          .strategyId.charAt(0)
+          .toUpperCase() + r.bestStrategy.slice(1),
     },
   ];
 });

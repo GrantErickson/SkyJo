@@ -56,10 +56,7 @@ const chartData = computed(() => {
 
   // Track cumulative wins per player
   const cumulativeWins = new Array(numPlayers).fill(0);
-  const dataPoints: number[][] = Array.from(
-    { length: numPlayers },
-    () => [],
-  );
+  const dataPoints: number[][] = Array.from({ length: numPlayers }, () => []);
 
   for (let i = 0; i < totalGames; i++) {
     cumulativeWins[games[i].winnerIndex]++;
@@ -67,9 +64,7 @@ const chartData = computed(() => {
     if (i % sampleInterval === 0 || i === totalGames - 1) {
       labels.push(`${i + 1}`);
       for (let p = 0; p < numPlayers; p++) {
-        dataPoints[p].push(
-          +((cumulativeWins[p] / (i + 1)) * 100).toFixed(1),
-        );
+        dataPoints[p].push(+((cumulativeWins[p] / (i + 1)) * 100).toFixed(1));
       }
     }
   }

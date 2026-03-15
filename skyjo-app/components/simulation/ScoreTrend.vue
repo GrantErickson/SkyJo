@@ -54,10 +54,7 @@ const chartData = computed(() => {
   const datasets: any[] = [];
 
   const cumulativeScores = new Array(numPlayers).fill(0);
-  const dataPoints: number[][] = Array.from(
-    { length: numPlayers },
-    () => [],
-  );
+  const dataPoints: number[][] = Array.from({ length: numPlayers }, () => []);
 
   for (let i = 0; i < totalGames; i++) {
     for (let p = 0; p < numPlayers; p++) {

@@ -37,16 +37,16 @@ SkyJo is a client-side card game built with Nuxt 3 where a human player competes
 
 ## Technology Stack
 
-| Layer      | Technology                                | Purpose                                 |
-| ---------- | ----------------------------------------- | --------------------------------------- |
-| Framework  | **Nuxt 3** (SPA mode, `ssr: false`)       | Vue 3 app framework, file-based routing |
-| Styling    | **Tailwind CSS 3**                        | Utility-first styling                   |
-| State      | **Pinia**                                 | Reactive state management               |
-| Charts     | **Chart.js + vue-chartjs**                | Simulation result visualization         |
-| Animations | **Vue transitions + CSS**                 | Card flips, score animations            |
-| Icons      | **lucide-vue-next**                       | UI icons                                |
-| Export     | Native Blob API                           | CSV/JSON data export                    |
-| Testing    | **Vitest**                                | Unit tests                              |
+| Layer      | Technology                          | Purpose                                 |
+| ---------- | ----------------------------------- | --------------------------------------- |
+| Framework  | **Nuxt 3** (SPA mode, `ssr: false`) | Vue 3 app framework, file-based routing |
+| Styling    | **Tailwind CSS 3**                  | Utility-first styling                   |
+| State      | **Pinia**                           | Reactive state management               |
+| Charts     | **Chart.js + vue-chartjs**          | Simulation result visualization         |
+| Animations | **Vue transitions + CSS**           | Card flips, score animations            |
+| Icons      | **lucide-vue-next**                 | UI icons                                |
+| Export     | Native Blob API                     | CSV/JSON data export                    |
+| Testing    | **Vitest**                          | Unit tests                              |
 
 **No server-side rendering.** Nuxt config sets `ssr: false` to generate a pure SPA.
 
@@ -1015,10 +1015,12 @@ Main Thread (async chunked execution)
 ### `engine/simulation.ts`
 
 Exports two entry points:
+
 - `runSimulation(config)` — synchronous, for testing
 - `runSimulationAsync(config, onProgress)` — async chunked, for the UI
 
 Internal helpers:
+
 - `createSimulationContext(config)` — sets up strategies, RNG, accumulators
 - `runSingleGame(context)` — plays one complete game and records results
 - `finalizeResults(context)` — aggregates stats into a `SimulationResult`
@@ -1391,12 +1393,12 @@ app.vue
 
 ## Routing
 
-| Route         | Page             | Description                                                      |
-| ------------- | ---------------- | ---------------------------------------------------------------- |
-| `/`           | `index.vue`      | Main menu with Play, Strategies, and Simulate options            |
-| `/play`       | `play.vue`       | Game setup → active game board                                   |
-| `/strategies` | `strategies.vue` | Strategy descriptions, difficulty ratings, and trait breakdowns  |
-| `/simulation` | `simulation.vue` | Configure, run, and view self-play simulation results inline     |
+| Route         | Page             | Description                                                     |
+| ------------- | ---------------- | --------------------------------------------------------------- |
+| `/`           | `index.vue`      | Main menu with Play, Strategies, and Simulate options           |
+| `/play`       | `play.vue`       | Game setup → active game board                                  |
+| `/strategies` | `strategies.vue` | Strategy descriptions, difficulty ratings, and trait breakdowns |
+| `/simulation` | `simulation.vue` | Configure, run, and view self-play simulation results inline    |
 
 All routes are client-side only (SPA mode).
 

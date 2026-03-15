@@ -50,10 +50,7 @@ const chartData = computed(() => {
   }
 
   for (const r of rounds) {
-    const idx = Math.min(
-      Math.floor((r - min) / bucketSize),
-      bucketCount - 1,
-    );
+    const idx = Math.min(Math.floor((r - min) / bucketSize), bucketCount - 1);
     buckets[idx]++;
   }
 

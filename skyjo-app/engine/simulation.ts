@@ -57,7 +57,10 @@ export async function runSimulationAsync(
   onProgress: (completed: number, total: number) => void,
 ): Promise<SimulationResult> {
   const ctx = createSimulationContext(config);
-  const chunkSize = Math.max(1, Math.min(50, Math.floor(config.numGames / 100)));
+  const chunkSize = Math.max(
+    1,
+    Math.min(50, Math.floor(config.numGames / 100)),
+  );
 
   for (let game = 0; game < config.numGames; game++) {
     runSingleGame(ctx, config, game);
@@ -100,7 +103,11 @@ function createSimulationContext(config: SimulationConfig): SimContext {
   };
 }
 
-function runSingleGame(ctx: SimContext, config: SimulationConfig, gameIndex: number): void {
+function runSingleGame(
+  ctx: SimContext,
+  config: SimulationConfig,
+  gameIndex: number,
+): void {
   const players = createPlayers(config);
   let roundNumber = 0;
   let previousRoundEnderId: number | undefined;
@@ -189,7 +196,10 @@ function runSingleGame(ctx: SimContext, config: SimulationConfig, gameIndex: num
   });
 }
 
-function finalizeResults(ctx: SimContext, config: SimulationConfig): SimulationResult {
+function finalizeResults(
+  ctx: SimContext,
+  config: SimulationConfig,
+): SimulationResult {
   const playerResults: PlayerSimResult[] = config.strategies.map(
     (strategyId, i) => ({
       playerIndex: i,
