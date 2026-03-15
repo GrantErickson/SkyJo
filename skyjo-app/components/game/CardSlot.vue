@@ -18,7 +18,7 @@
     </template>
     <template v-else>
       <div
-        class="rounded-lg border-2 border-dashed border-emerald-700/30 opacity-30"
+        class="rounded-lg border-2 border-dashed border-indigo-700/30 opacity-30"
         :class="
           compact ? 'w-9 h-14 sm:w-11 sm:h-16' : 'w-11 h-16 sm:w-14 sm:h-20'
         "

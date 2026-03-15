@@ -28,9 +28,9 @@
         class="shrink-0"
       >
         <div
-          class="bg-emerald-700/30 rounded-lg px-3 py-1 border border-emerald-600/30 text-center"
+          class="bg-indigo-700/30 rounded-lg px-3 py-1 border border-indigo-600/30 text-center"
         >
-          <span class="text-emerald-300 text-xs">Drawn: </span>
+          <span class="text-indigo-300 text-xs">Drawn: </span>
           <span class="text-white font-bold text-base">{{
             gameStore.drawnCard.value
           }}</span>

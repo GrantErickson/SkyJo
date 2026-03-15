@@ -3,10 +3,10 @@
     <div
       v-for="stat in stats"
       :key="stat.label"
-      class="bg-emerald-800/20 rounded-xl border border-emerald-700/20 p-4 text-center"
+      class="bg-indigo-800/20 rounded-xl border border-indigo-700/20 p-4 text-center"
     >
       <div class="text-2xl font-bold text-white">{{ stat.value }}</div>
-      <div class="text-xs text-emerald-400 mt-1">{{ stat.label }}</div>
+      <div class="text-xs text-indigo-400 mt-1">{{ stat.label }}</div>
     </div>
   </div>
 </template>

@@ -1,6 +1,6 @@
 <template>
-  <div class="bg-emerald-800/20 rounded-xl border border-emerald-700/20 p-4">
-    <h3 class="text-sm font-medium text-emerald-300 mb-3">
+  <div class="bg-indigo-800/20 rounded-xl border border-indigo-700/20 p-4">
+    <h3 class="text-sm font-medium text-indigo-300 mb-3">
       Score Distribution
     </h3>
     <div class="h-64">
@@ -36,7 +36,7 @@ const simStore = useSimStore();
 const result = computed(() => simStore.result!);
 
 const chartColors = [
-  "rgba(16, 185, 129, 0.5)",
+  "rgba(99, 102, 241, 0.5)",
   "rgba(59, 130, 246, 0.5)",
   "rgba(245, 158, 11, 0.5)",
   "rgba(239, 68, 68, 0.5)",
@@ -71,7 +71,7 @@ const chartOptions = {
     y: {
       beginAtZero: true,
       ticks: { color: "#6ee7b7" },
-      grid: { color: "rgba(16, 185, 129, 0.1)" },
+      grid: { color: "rgba(99, 102, 241, 0.1)" },
     },
     x: {
       ticks: { color: "#6ee7b7" },
