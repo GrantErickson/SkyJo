@@ -26,7 +26,8 @@ jobs:
       - name: Install and Build
         run: |
           cd skyjo-app
-          npm ci
+          rm -f package-lock.json
+          npm install
           npm run build
       - name: Deploy
         id: builddeploy
