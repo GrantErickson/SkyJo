@@ -58,20 +58,20 @@ const chartData = computed(() => {
 
   for (let i = 0; i < totalGames; i++) {
     for (let p = 0; p < numPlayers; p++) {
-      cumulativeScores[p] += games[i].playerScores[p];
+      cumulativeScores[p]! += games[i].playerScores[p]!;
     }
 
     if (i % sampleInterval === 0 || i === totalGames - 1) {
       labels.push(`${i + 1}`);
       for (let p = 0; p < numPlayers; p++) {
-        dataPoints[p].push(+(cumulativeScores[p] / (i + 1)).toFixed(1));
+        dataPoints[p]!.push(+(cumulativeScores[p]! / (i + 1)).toFixed(1));
       }
     }
   }
 
   for (let p = 0; p < numPlayers; p++) {
     datasets.push({
-      label: STRATEGY_NAMES[result.value.config.strategies[p]],
+      label: STRATEGY_NAMES[result.value.config.strategies[p]!],
       data: dataPoints[p],
       borderColor: lineColors[p % lineColors.length],
       backgroundColor: "transparent",

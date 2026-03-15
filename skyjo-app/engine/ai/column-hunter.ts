@@ -53,7 +53,7 @@ export function createColumnHunterStrategy(): Strategy {
 
       // Priority 2: Build toward a column match — take discard if it
       // creates a pair in a column
-      const pairTarget = findColumnPairTarget(grid, topDiscard.value);
+      const pairTarget = findColumnPairTarget(grid, topDiscard.value) as GridPosition | null;
       if (pairTarget) {
         return {
           type: "take-discard",
@@ -70,7 +70,7 @@ export function createColumnHunterStrategy(): Strategy {
         if (
           shouldEndRoundSafely(grid, otherGrids, config.roundEndAggressiveness)
         ) {
-          const target = findMatchPotentialFlip(grid) || faceDownPositions[0];
+          const target = findMatchPotentialFlip(grid) ?? faceDownPositions[0]!;
           return {
             type: "draw-and-discard-flip",
             targetRow: target.row,
@@ -84,7 +84,7 @@ export function createColumnHunterStrategy(): Strategy {
         const highest = getHighestFaceUpPosition(grid);
         if (
           highest &&
-          grid[highest.row][highest.col].card!.value > topDiscard.value
+          grid[highest.row]![highest.col]!.card!.value > topDiscard.value
         ) {
           return {
             type: "take-discard",
@@ -106,7 +106,7 @@ export function createColumnHunterStrategy(): Strategy {
 
       // Priority 5: Flip any face-down card
       if (faceDownPositions.length > 0) {
-        const target = faceDownPositions[0];
+        const target = faceDownPositions[0]!;
         return {
           type: "draw-and-discard-flip",
           targetRow: target.row,
@@ -125,7 +125,7 @@ export function createColumnHunterStrategy(): Strategy {
       }
 
       const active = getActivePositions(grid);
-      const target = active[Math.floor(Math.random() * active.length)];
+      const target = active[Math.floor(Math.random() * active.length)]!;
       return {
         type: "draw-and-swap",
         targetRow: target.row,
@@ -145,13 +145,13 @@ function findColumnCompleter(
     if (matchCount === 2) {
       // Replace the non-matching card
       for (let row = 0; row < ROWS; row++) {
-        const cell = grid[row][col];
+        const cell = grid[row]![col]!;
         if (cell.card && cell.faceUp && cell.card.value !== value) {
           return { row, col };
         }
       }
       for (let row = 0; row < ROWS; row++) {
-        const cell = grid[row][col];
+        const cell = grid[row]![col]!;
         if (cell.card && !cell.faceUp) {
           return { row, col };
         }
@@ -171,7 +171,7 @@ function findColumnPairTarget(
     if (matchCount === 1) {
       // Place the card to form a pair — replace the non-matching face-up card
       for (let row = 0; row < ROWS; row++) {
-        const cell = grid[row][col];
+        const cell = grid[row]![col]!;
         if (cell.card && cell.faceUp && cell.card.value !== value) {
           // Only worth it if we're replacing a higher card
           if (cell.card.value >= value) {
@@ -202,5 +202,5 @@ function findMatchPotentialFlip(grid: any[][]): GridPosition | null {
       return pos;
     }
   }
-  return faceDown.length > 0 ? faceDown[0] : null;
+  return faceDown.length > 0 ? faceDown[0]! : null;
 }

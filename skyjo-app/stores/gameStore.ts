@@ -136,9 +136,9 @@ export const useGameStore = defineStore("game", () => {
 
   function humanSetupFlip(row: number, col: number) {
     if (!gameState.value || gameState.value.phase !== "setup-flip") return;
-    const player = gameState.value.players[0];
-    const cell = player.grid[row][col];
-    if (!cell.card || cell.faceUp) return;
+    const player = gameState.value.players[0]!;
+    const cell = player.grid[row]?.[col];
+    if (!cell?.card || cell.faceUp) return;
 
     flipCard(player.grid, row, col);
 
@@ -153,13 +153,13 @@ export const useGameStore = defineStore("game", () => {
     if (flippedCount >= 2) {
       // AI players flip their cards
       for (let i = 1; i < gameState.value.players.length; i++) {
-        const p = gameState.value.players[i];
+        const p = gameState.value.players[i]!;
         const strategy = getStrategy(p.strategyId!);
         const flips = strategy.chooseSetupFlips({
           gameState: gameState.value,
           player: p,
           topDiscard:
-            gameState.value.discardPile[gameState.value.discardPile.length - 1],
+            gameState.value.discardPile[gameState.value.discardPile.length - 1]!,
           config: strategy.config,
         });
         flipCard(p.grid, flips[0].row, flips[0].col);
@@ -184,7 +184,7 @@ export const useGameStore = defineStore("game", () => {
     if (source === "discard") {
       // Must swap with a grid card
       drawnCard.value =
-        gameState.value.discardPile[gameState.value.discardPile.length - 1];
+        gameState.value.discardPile[gameState.value.discardPile.length - 1] ?? null;
       turnPhase.value = "awaiting-swap-target";
     } else {
       // Draw from pile — peek at the card
@@ -193,7 +193,7 @@ export const useGameStore = defineStore("game", () => {
       }
       const drawn =
         gameState.value.drawPile[gameState.value.drawPile.length - 1];
-      drawnCard.value = drawn;
+      drawnCard.value = drawn ?? null;
       // Player can now choose to swap or discard+flip
       turnPhase.value = "awaiting-swap-target"; // will also show discard option
     }
@@ -254,7 +254,7 @@ export const useGameStore = defineStore("game", () => {
       gameState: gameState.value,
       player,
       topDiscard:
-        gameState.value.discardPile[gameState.value.discardPile.length - 1],
+        gameState.value.discardPile[gameState.value.discardPile.length - 1]!,
       config: strategy.config,
     };
     let action = strategy.chooseTurnAction(turnCtx);
@@ -266,7 +266,7 @@ export const useGameStore = defineStore("game", () => {
       gameState.value.drawPile.length > 0
     ) {
       const drawnCard =
-        gameState.value.drawPile[gameState.value.drawPile.length - 1];
+        gameState.value.drawPile[gameState.value.drawPile.length - 1]!;
       if (strategy.chooseDrawAction) {
         action = strategy.chooseDrawAction(drawnCard, turnCtx);
       } else {

@@ -44,7 +44,7 @@
           @click="handleDrawClick"
         />
         <GameDiscardPile
-          :top-card="gameStore.topDiscard"
+          :top-card="gameStore.topDiscard ?? null"
           :highlighted="gameStore.turnPhase === 'awaiting-source'"
           @click="handleDiscardClick"
         />

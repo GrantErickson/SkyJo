@@ -13,14 +13,14 @@ export function createGrid(cards: Card[]): PlayerGrid {
   for (let row = 0; row < ROWS; row++) {
     grid[row] = [];
     for (let col = 0; col < COLS; col++) {
-      grid[row][col] = { card: cards[cardIndex++], faceUp: false };
+      grid[row]![col] = { card: cards[cardIndex++]!, faceUp: false };
     }
   }
   return grid;
 }
 
 export function flipCard(grid: PlayerGrid, row: number, col: number): void {
-  const cell = grid[row][col];
+  const cell = grid[row]![col]!;
   if (cell.card && !cell.faceUp) {
     cell.faceUp = true;
   }
@@ -30,7 +30,7 @@ export function flipAllCards(grid: PlayerGrid): void {
   for (let row = 0; row < ROWS; row++) {
     for (let col = 0; col < COLS; col++) {
       if (grid[row]?.[col]?.card) {
-        grid[row][col].faceUp = true;
+        grid[row]![col]!.faceUp = true;
       }
     }
   }
@@ -42,7 +42,7 @@ export function swapCard(
   col: number,
   newCard: Card,
 ): Card {
-  const cell = grid[row][col];
+  const cell = grid[row]![col]!;
   const oldCard = cell.card!;
   cell.card = newCard;
   cell.faceUp = true;
@@ -54,14 +54,14 @@ export function checkColumnRemoval(grid: PlayerGrid): number[] {
   for (let col = 0; col < COLS; col++) {
     const cells = [];
     for (let row = 0; row < ROWS; row++) {
-      cells.push(grid[row][col]);
+      cells.push(grid[row]![col]!);
     }
-    if (cells.every((c) => c.card !== null && c.faceUp)) {
-      const values = cells.map((c) => c.card!.value);
+    if (cells.every((c) => c!.card !== null && c!.faceUp)) {
+      const values = cells.map((c) => c!.card!.value);
       if (values.every((v) => v === values[0])) {
         removedColumns.push(col);
         for (let row = 0; row < ROWS; row++) {
-          grid[row][col] = { card: null, faceUp: true };
+          grid[row]![col] = { card: null, faceUp: true };
         }
       }
     }
@@ -72,7 +72,7 @@ export function checkColumnRemoval(grid: PlayerGrid): number[] {
 export function allCardsFaceUp(grid: PlayerGrid): boolean {
   for (let row = 0; row < ROWS; row++) {
     for (let col = 0; col < COLS; col++) {
-      const cell = grid[row][col];
+      const cell = grid[row]![col]!;
       if (cell.card !== null && !cell.faceUp) return false;
     }
   }
@@ -83,7 +83,7 @@ export function getFaceDownPositions(grid: PlayerGrid): GridPosition[] {
   const positions: GridPosition[] = [];
   for (let row = 0; row < ROWS; row++) {
     for (let col = 0; col < COLS; col++) {
-      if (grid[row][col].card !== null && !grid[row][col].faceUp) {
+      if (grid[row]![col]!.card !== null && !grid[row]![col]!.faceUp) {
         positions.push({ row, col });
       }
     }
@@ -95,7 +95,7 @@ export function getActivePositions(grid: PlayerGrid): GridPosition[] {
   const positions: GridPosition[] = [];
   for (let row = 0; row < ROWS; row++) {
     for (let col = 0; col < COLS; col++) {
-      if (grid[row][col].card !== null) {
+      if (grid[row]![col]!.card !== null) {
         positions.push({ row, col });
       }
     }
@@ -107,7 +107,7 @@ export function getFaceUpPositions(grid: PlayerGrid): GridPosition[] {
   const positions: GridPosition[] = [];
   for (let row = 0; row < ROWS; row++) {
     for (let col = 0; col < COLS; col++) {
-      if (grid[row][col].card !== null && grid[row][col].faceUp) {
+      if (grid[row]![col]!.card !== null && grid[row]![col]!.faceUp) {
         positions.push({ row, col });
       }
     }
@@ -119,7 +119,7 @@ export function getGridScore(grid: PlayerGrid): number {
   let total = 0;
   for (let row = 0; row < ROWS; row++) {
     for (let col = 0; col < COLS; col++) {
-      const cell = grid[row][col];
+      const cell = grid[row]![col]!;
       if (cell.card) total += cell.card.value;
     }
   }
@@ -130,7 +130,7 @@ export function getVisibleScore(grid: PlayerGrid): number {
   let total = 0;
   for (let row = 0; row < ROWS; row++) {
     for (let col = 0; col < COLS; col++) {
-      const cell = grid[row][col];
+      const cell = grid[row]![col]!;
       if (cell.card && cell.faceUp) total += cell.card.value;
     }
   }
@@ -143,7 +143,7 @@ export function getColumnValues(
 ): (number | null)[] {
   const values: (number | null)[] = [];
   for (let row = 0; row < ROWS; row++) {
-    const cell = grid[row][col];
+    const cell = grid[row]![col]!;
     if (cell.card && cell.faceUp) {
       values.push(cell.card.value);
     } else if (cell.card) {
@@ -161,7 +161,7 @@ export function getHighestFaceUpPosition(
   let highestValue = -Infinity;
   for (let row = 0; row < ROWS; row++) {
     for (let col = 0; col < COLS; col++) {
-      const cell = grid[row][col];
+      const cell = grid[row]![col]!;
       if (cell.card && cell.faceUp && cell.card.value > highestValue) {
         highestValue = cell.card.value;
         highest = { row, col };
@@ -175,7 +175,7 @@ export function countFaceDown(grid: PlayerGrid): number {
   let count = 0;
   for (let row = 0; row < ROWS; row++) {
     for (let col = 0; col < COLS; col++) {
-      if (grid[row][col].card !== null && !grid[row][col].faceUp) count++;
+      if (grid[row]![col]!.card !== null && !grid[row]![col]!.faceUp) count++;
     }
   }
   return count;
@@ -185,7 +185,7 @@ export function countActiveCards(grid: PlayerGrid): number {
   let count = 0;
   for (let row = 0; row < ROWS; row++) {
     for (let col = 0; col < COLS; col++) {
-      if (grid[row][col].card !== null) count++;
+      if (grid[row]![col]!.card !== null) count++;
     }
   }
   return count;
@@ -202,7 +202,7 @@ export function estimateTotalScore(
   let total = 0;
   for (let row = 0; row < ROWS; row++) {
     for (let col = 0; col < COLS; col++) {
-      const cell = grid[row][col];
+      const cell = grid[row]![col]!;
       if (cell.card) {
         total += cell.faceUp ? cell.card.value : expectedFaceDownValue;
       }
@@ -263,13 +263,13 @@ export function makeInformedDrawDecision(
     const matchCount = colValues.filter((v) => v === drawnCard.value).length;
     if (matchCount === 2) {
       for (let row = 0; row < ROWS; row++) {
-        const cell = grid[row][col];
+        const cell = grid[row]![col]!;
         if (cell.card && cell.faceUp && cell.card.value !== drawnCard.value) {
           return { type: "draw-and-swap", targetRow: row, targetCol: col };
         }
       }
       for (let row = 0; row < ROWS; row++) {
-        const cell = grid[row][col];
+        const cell = grid[row]![col]!;
         if (cell.card && !cell.faceUp) {
           return { type: "draw-and-swap", targetRow: row, targetCol: col };
         }
@@ -278,7 +278,7 @@ export function makeInformedDrawDecision(
   }
 
   // 2. Better than highest face-up card — swap
-  if (highest && drawnCard.value < grid[highest.row][highest.col].card!.value) {
+  if (highest && drawnCard.value < grid[highest.row]![highest.col]!.card!.value) {
     return {
       type: "draw-and-swap",
       targetRow: highest.row,

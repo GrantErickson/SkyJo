@@ -25,6 +25,7 @@
     "@nuxtjs/tailwindcss": "^6.12.0",
     "@pinia/nuxt": "^0.9.0",
     "typescript": "^5.7.0",
-    "vitest": "^3.0.0"
+    "vitest": "^3.0.0",
+    "vue-tsc": "^3.2.5"
   }
 }

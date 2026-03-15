@@ -34,7 +34,7 @@ export function createRiskTakerStrategy(): Strategy {
       const i = Math.floor(Math.random() * positions.length);
       let j = Math.floor(Math.random() * (positions.length - 1));
       if (j >= i) j++;
-      return [positions[i], positions[j]];
+      return [positions[i]!, positions[j]!];
     },
 
     chooseTurnAction(ctx: StrategyContext): TurnAction {
@@ -72,7 +72,7 @@ export function createRiskTakerStrategy(): Strategy {
         if (
           shouldEndRoundSafely(grid, otherGrids, config.roundEndAggressiveness)
         ) {
-          const target = faceDownPositions[0];
+          const target = faceDownPositions[0]!;
           return {
             type: "draw-and-discard-flip",
             targetRow: target.row,
@@ -85,7 +85,7 @@ export function createRiskTakerStrategy(): Strategy {
       const highest = getHighestFaceUpPosition(grid);
       if (
         highest &&
-        grid[highest.row][highest.col].card!.value >= config.highCardThreshold
+        grid[highest.row]![highest.col]!.card!.value >= config.highCardThreshold
       ) {
         return {
           type: "draw-and-swap",
@@ -99,7 +99,7 @@ export function createRiskTakerStrategy(): Strategy {
         const target =
           faceDownPositions[
             Math.floor(Math.random() * faceDownPositions.length)
-          ];
+          ]!;
         return {
           type: "draw-and-swap",
           targetRow: target.row,
@@ -112,7 +112,7 @@ export function createRiskTakerStrategy(): Strategy {
         const target =
           faceDownPositions[
             Math.floor(Math.random() * faceDownPositions.length)
-          ];
+          ]!;
         return {
           type: "draw-and-discard-flip",
           targetRow: target.row,
@@ -122,7 +122,7 @@ export function createRiskTakerStrategy(): Strategy {
 
       // Fallback
       const active = getActivePositions(grid);
-      const target = active[Math.floor(Math.random() * active.length)];
+      const target = active[Math.floor(Math.random() * active.length)]!;
       return {
         type: "draw-and-swap",
         targetRow: target.row,
@@ -141,13 +141,13 @@ function findColumnCompleter(
     const matchCount = colValues.filter((v) => v === value).length;
     if (matchCount === 2) {
       for (let row = 0; row < ROWS; row++) {
-        const cell = grid[row][col];
+        const cell = grid[row]![col]!;
         if (cell.card && cell.faceUp && cell.card.value !== value) {
           return { row, col };
         }
       }
       for (let row = 0; row < ROWS; row++) {
-        const cell = grid[row][col];
+        const cell = grid[row]![col]!;
         if (cell.card && !cell.faceUp) {
           return { row, col };
         }

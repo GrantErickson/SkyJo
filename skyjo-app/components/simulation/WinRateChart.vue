@@ -54,7 +54,7 @@ const chartData = computed(() => ({
         (_, i) => chartColors[i % chartColors.length],
       ),
       borderColor: result.value.playerResults.map((_, i) =>
-        chartColors[i % chartColors.length].replace("0.8", "1"),
+        chartColors[i % chartColors.length]!.replace("0.8", "1"),
       ),
       borderWidth: 1,
       borderRadius: 6,

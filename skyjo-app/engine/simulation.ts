@@ -36,7 +36,7 @@ function pickUniqueRandomStrategies(
   const picked: StrategyId[] = [];
   for (let i = 0; i < count; i++) {
     const idx = Math.floor(rand() * pool.length);
-    picked.push(pool[idx]);
+    picked.push(pool[idx]!);
     pool.splice(idx, 1);
   }
   return picked;
@@ -166,11 +166,11 @@ function runSingleGame(
     const state = initializeRound(players, roundNumber, ctx.rng);
 
     for (const player of players) {
-      const strategy = gameStrategies[player.id];
+      const strategy = gameStrategies[player.id]!;
       const flips = strategy.chooseSetupFlips({
         gameState: state,
         player,
-        topDiscard: state.discardPile[state.discardPile.length - 1],
+        topDiscard: state.discardPile[state.discardPile.length - 1]!,
         config: strategy.config,
       });
       flipCard(player.grid, flips[0].row, flips[0].col);
@@ -192,12 +192,12 @@ function runSingleGame(
       turnSafety < maxTurns
     ) {
       turnSafety++;
-      const player = state.players[state.currentPlayerIndex];
-      const strategy = gameStrategies[player.id];
+      const player = state.players[state.currentPlayerIndex]!;
+      const strategy = gameStrategies[player.id]!;
       const turnCtx = {
         gameState: state,
         player,
-        topDiscard: state.discardPile[state.discardPile.length - 1],
+        topDiscard: state.discardPile[state.discardPile.length - 1]!,
         config: strategy.config,
       };
       let action = strategy.chooseTurnAction(turnCtx);
@@ -208,7 +208,7 @@ function runSingleGame(
           action.type === "draw-and-discard-flip") &&
         state.drawPile.length > 0
       ) {
-        const drawnCard = state.drawPile[state.drawPile.length - 1];
+        const drawnCard = state.drawPile[state.drawPile.length - 1]!;
         if (strategy.chooseDrawAction) {
           action = strategy.chooseDrawAction(drawnCard, turnCtx);
         } else {
@@ -253,9 +253,9 @@ function runSingleGame(
   const winnerStrategy = winner.strategyId!;
 
   // Track by player index (for fixed strategies mode)
-  ctx.winsPerPlayer[winner.id]++;
+  ctx.winsPerPlayer[winner.id]!++;
   for (const player of players) {
-    ctx.scoresPerPlayer[player.id].push(player.cumulativeScore);
+    ctx.scoresPerPlayer[player.id]!.push(player.cumulativeScore);
   }
   ctx.roundsPerGame.push(roundNumber);
 
@@ -320,20 +320,20 @@ function finalizeResults(
     playerResults = config.strategies.map((strategyId, i) => ({
       playerIndex: i,
       strategyId,
-      wins: ctx.winsPerPlayer[i],
-      winRate: ctx.winsPerPlayer[i] / config.numGames,
-      avgScore: mean(ctx.scoresPerPlayer[i]),
-      medianScore: median(ctx.scoresPerPlayer[i]),
-      minScore: Math.min(...ctx.scoresPerPlayer[i]),
-      maxScore: Math.max(...ctx.scoresPerPlayer[i]),
-      stdDeviation: stdDev(ctx.scoresPerPlayer[i]),
+      wins: ctx.winsPerPlayer[i]!,
+      winRate: ctx.winsPerPlayer[i]! / config.numGames,
+      avgScore: mean(ctx.scoresPerPlayer[i]!),
+      medianScore: median(ctx.scoresPerPlayer[i]!),
+      minScore: Math.min(...ctx.scoresPerPlayer[i]!),
+      maxScore: Math.max(...ctx.scoresPerPlayer[i]!),
+      stdDeviation: stdDev(ctx.scoresPerPlayer[i]!),
       avgRoundsPerGame: mean(ctx.roundsPerGame),
-      scoreDistribution: histogram(ctx.scoresPerPlayer[i], 20),
+      scoreDistribution: histogram(ctx.scoresPerPlayer[i]!, 20),
     }));
   }
 
   const bestIdx = playerResults.reduce(
-    (best, pr, i) => (pr.winRate > playerResults[best].winRate ? i : best),
+    (best, pr, i) => (pr.winRate > playerResults[best]!.winRate ? i : best),
     0,
   );
 
@@ -349,7 +349,7 @@ function finalizeResults(
     playerResults,
     gamesData: ctx.gamesData,
     duration: performance.now() - ctx.startTime,
-    bestStrategy: playerResults[bestIdx].strategyId,
+    bestStrategy: playerResults[bestIdx]!.strategyId,
     recommendation: generateRecommendation(playerResults, config.numPlayers),
   };
 }
@@ -359,7 +359,7 @@ function generateRecommendation(
   numPlayers: number,
 ): string {
   const sorted = [...results].sort((a, b) => b.winRate - a.winRate);
-  const best = sorted[0];
+  const best = sorted[0]!;
   const second = sorted[1];
 
   const totalGames = best.wins / best.winRate;

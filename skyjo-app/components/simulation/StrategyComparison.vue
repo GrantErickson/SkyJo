@@ -59,10 +59,10 @@ const chartData = computed(() => {
         Math.max(0, 100 - (Math.max(0, pr.minScore) / maxScore) * 100),
         Math.max(0, 100 - (pr.maxScore / maxScore) * 100),
       ],
-      backgroundColor: chartColors[idx % chartColors.length].bg,
-      borderColor: chartColors[idx % chartColors.length].border,
+      backgroundColor: chartColors[idx % chartColors.length]!.bg,
+      borderColor: chartColors[idx % chartColors.length]!.border,
       borderWidth: 2,
-      pointBackgroundColor: chartColors[idx % chartColors.length].border,
+      pointBackgroundColor: chartColors[idx % chartColors.length]!.border,
     })),
   };
 });

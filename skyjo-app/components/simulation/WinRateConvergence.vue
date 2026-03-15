@@ -59,19 +59,19 @@ const chartData = computed(() => {
   const dataPoints: number[][] = Array.from({ length: numPlayers }, () => []);
 
   for (let i = 0; i < totalGames; i++) {
-    cumulativeWins[games[i].winnerIndex]++;
+    cumulativeWins[games[i].winnerIndex]!++;
 
     if (i % sampleInterval === 0 || i === totalGames - 1) {
       labels.push(`${i + 1}`);
       for (let p = 0; p < numPlayers; p++) {
-        dataPoints[p].push(+((cumulativeWins[p] / (i + 1)) * 100).toFixed(1));
+        dataPoints[p]!.push(+((cumulativeWins[p]! / (i + 1)) * 100).toFixed(1));
       }
     }
   }
 
   for (let p = 0; p < numPlayers; p++) {
     datasets.push({
-      label: STRATEGY_NAMES[result.value.config.strategies[p]],
+      label: STRATEGY_NAMES[result.value.config.strategies[p]!],
       data: dataPoints[p],
       borderColor: lineColors[p % lineColors.length],
       backgroundColor: "transparent",

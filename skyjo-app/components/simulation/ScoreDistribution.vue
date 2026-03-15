@@ -52,7 +52,7 @@ const chartData = computed(() => {
       label: STRATEGY_NAMES[pr.strategyId],
       data: pr.scoreDistribution,
       backgroundColor: chartColors[idx % chartColors.length],
-      borderColor: chartColors[idx % chartColors.length].replace("0.5", "0.8"),
+      borderColor: chartColors[idx % chartColors.length]!.replace("0.5", "0.8"),
       borderWidth: 1,
       borderRadius: 3,
     })),
