@@ -50,12 +50,12 @@
       <!-- Recommendation -->
       <div
         v-if="sim.result.recommendation"
-        class="bg-emerald-800/50 border border-emerald-600/30 rounded-xl p-6"
+        class="bg-indigo-800/50 border border-indigo-600/30 rounded-xl p-6"
       >
         <h3 class="text-lg font-semibold text-yellow-400 mb-2">
           📝 Recommendation
         </h3>
-        <p class="text-emerald-200 whitespace-pre-line">
+        <p class="text-indigo-200 whitespace-pre-line">
           {{ sim.result.recommendation }}
         </p>
       </div>

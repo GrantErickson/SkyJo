@@ -2,25 +2,25 @@
   <div class="overflow-x-auto">
     <table class="w-full text-sm">
       <thead>
-        <tr class="border-b border-emerald-700/30">
-          <th class="px-4 py-2 text-left text-emerald-400 font-medium">
+        <tr class="border-b border-indigo-700/30">
+          <th class="px-4 py-2 text-left text-indigo-400 font-medium">
             Strategy
           </th>
-          <th class="px-4 py-2 text-right text-emerald-400 font-medium">
+          <th class="px-4 py-2 text-right text-indigo-400 font-medium">
             Wins
           </th>
-          <th class="px-4 py-2 text-right text-emerald-400 font-medium">
+          <th class="px-4 py-2 text-right text-indigo-400 font-medium">
             Win %
           </th>
-          <th class="px-4 py-2 text-right text-emerald-400 font-medium">
+          <th class="px-4 py-2 text-right text-indigo-400 font-medium">
             Avg Score
           </th>
-          <th class="px-4 py-2 text-right text-emerald-400 font-medium">
+          <th class="px-4 py-2 text-right text-indigo-400 font-medium">
             Median
           </th>
-          <th class="px-4 py-2 text-right text-emerald-400 font-medium">Min</th>
-          <th class="px-4 py-2 text-right text-emerald-400 font-medium">Max</th>
-          <th class="px-4 py-2 text-right text-emerald-400 font-medium">
+          <th class="px-4 py-2 text-right text-indigo-400 font-medium">Min</th>
+          <th class="px-4 py-2 text-right text-indigo-400 font-medium">Max</th>
+          <th class="px-4 py-2 text-right text-indigo-400 font-medium">
             Std Dev
           </th>
         </tr>
@@ -29,7 +29,7 @@
         <tr
           v-for="pr in sortedResults"
           :key="pr.playerIndex"
-          class="border-b border-emerald-700/10 hover:bg-emerald-800/20"
+          class="border-b border-indigo-700/10 hover:bg-indigo-800/20"
           :class="{ 'bg-yellow-400/5': pr.strategyId === result.bestStrategy }"
         >
           <td class="px-4 py-2 font-medium text-white">
@@ -52,7 +52,7 @@
           <td class="px-4 py-2 text-right text-white">
             {{ pr.medianScore.toFixed(0) }}
           </td>
-          <td class="px-4 py-2 text-right text-emerald-300">
+          <td class="px-4 py-2 text-right text-indigo-300">
             {{ pr.minScore }}
           </td>
           <td class="px-4 py-2 text-right text-red-300">{{ pr.maxScore }}</td>

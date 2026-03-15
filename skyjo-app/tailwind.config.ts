@@ -12,9 +12,9 @@ export default {
     extend: {
       colors: {
         table: {
-          DEFAULT: "#065f46",
-          light: "#047857",
-          dark: "#064e3b",
+          DEFAULT: "#312e81",
+          light: "#3730a3",
+          dark: "#1e1b4b",
         },
       },
       animation: {

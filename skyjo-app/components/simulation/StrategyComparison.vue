@@ -1,6 +1,6 @@
 <template>
-  <div class="bg-emerald-800/20 rounded-xl border border-emerald-700/20 p-4">
-    <h3 class="text-sm font-medium text-emerald-300 mb-3">
+  <div class="bg-indigo-800/20 rounded-xl border border-indigo-700/20 p-4">
+    <h3 class="text-sm font-medium text-indigo-300 mb-3">
       Strategy Comparison
     </h3>
     <div class="h-64">
@@ -36,7 +36,7 @@ const simStore = useSimStore();
 const result = computed(() => simStore.result!);
 
 const chartColors = [
-  { bg: "rgba(16, 185, 129, 0.2)", border: "rgba(16, 185, 129, 0.8)" },
+  { bg: "rgba(99, 102, 241, 0.2)", border: "rgba(99, 102, 241, 0.8)" },
   { bg: "rgba(59, 130, 246, 0.2)", border: "rgba(59, 130, 246, 0.8)" },
   { bg: "rgba(245, 158, 11, 0.2)", border: "rgba(245, 158, 11, 0.8)" },
   { bg: "rgba(239, 68, 68, 0.2)", border: "rgba(239, 68, 68, 0.8)" },
@@ -77,8 +77,8 @@ const chartOptions = {
   },
   scales: {
     r: {
-      angleLines: { color: "rgba(16, 185, 129, 0.2)" },
-      grid: { color: "rgba(16, 185, 129, 0.15)" },
+      angleLines: { color: "rgba(99, 102, 241, 0.2)" },
+      grid: { color: "rgba(99, 102, 241, 0.15)" },
       pointLabels: { color: "#6ee7b7", font: { size: 11 } },
       ticks: { display: false },
       suggestedMin: 0,

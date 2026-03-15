@@ -1,7 +1,7 @@
 <template>
   <div class="min-h-[calc(100vh-8rem)] py-6 px-4 max-w-4xl mx-auto">
     <h1 class="text-3xl font-bold text-white mb-2">How to Play SkyJo</h1>
-    <p class="text-emerald-300 mb-8">
+    <p class="text-indigo-300 mb-8">
       SkyJo is a card game where the goal is to have the lowest score. Swap,
       flip, and match your way to victory!
     </p>
@@ -12,9 +12,9 @@
         <span class="text-2xl">🃏</span> Card Values
       </h2>
       <div
-        class="bg-emerald-800/30 border border-emerald-700/30 rounded-xl p-5"
+        class="bg-indigo-800/30 border border-indigo-700/30 rounded-xl p-5"
       >
-        <p class="text-emerald-300 text-sm mb-4">
+        <p class="text-indigo-300 text-sm mb-4">
           The deck has 150 cards with values from
           <strong class="text-yellow-400">-2</strong> to
           <strong class="text-red-400">12</strong>. Lower is better!
@@ -41,12 +41,12 @@
         <span class="text-2xl">🎬</span> Setup
       </h2>
       <div
-        class="bg-emerald-800/30 border border-emerald-700/30 rounded-xl p-5"
+        class="bg-indigo-800/30 border border-indigo-700/30 rounded-xl p-5"
       >
-        <ol class="space-y-3 text-emerald-300 text-sm">
+        <ol class="space-y-3 text-indigo-300 text-sm">
           <li class="flex gap-3">
             <span
-              class="shrink-0 w-6 h-6 rounded-full bg-emerald-700 text-white text-xs flex items-center justify-center font-bold"
+              class="shrink-0 w-6 h-6 rounded-full bg-indigo-700 text-white text-xs flex items-center justify-center font-bold"
               >1</span
             >
             <span
@@ -57,7 +57,7 @@
           </li>
           <li class="flex gap-3">
             <span
-              class="shrink-0 w-6 h-6 rounded-full bg-emerald-700 text-white text-xs flex items-center justify-center font-bold"
+              class="shrink-0 w-6 h-6 rounded-full bg-indigo-700 text-white text-xs flex items-center justify-center font-bold"
               >2</span
             >
             <span
@@ -69,7 +69,7 @@
           </li>
           <li class="flex gap-3">
             <span
-              class="shrink-0 w-6 h-6 rounded-full bg-emerald-700 text-white text-xs flex items-center justify-center font-bold"
+              class="shrink-0 w-6 h-6 rounded-full bg-indigo-700 text-white text-xs flex items-center justify-center font-bold"
               >3</span
             >
             <span
@@ -79,7 +79,7 @@
           </li>
           <li class="flex gap-3">
             <span
-              class="shrink-0 w-6 h-6 rounded-full bg-emerald-700 text-white text-xs flex items-center justify-center font-bold"
+              class="shrink-0 w-6 h-6 rounded-full bg-indigo-700 text-white text-xs flex items-center justify-center font-bold"
               >4</span
             >
             <span
@@ -97,32 +97,33 @@
       <h2 class="text-xl font-semibold text-white mb-3 flex items-center gap-2">
         <span class="text-2xl">🔄</span> Your Turn
       </h2>
-      <p class="text-emerald-300 text-sm mb-4">
+      <p class="text-indigo-300 text-sm mb-4">
         On your turn, you must do <strong class="text-white">one</strong> of the
         following:
       </p>
       <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <!-- Option A -->
         <div
-          class="bg-emerald-800/30 border border-emerald-700/30 rounded-xl p-5"
+          class="bg-indigo-800/30 border border-indigo-700/30 rounded-xl p-5"
         >
           <h3 class="text-white font-semibold mb-2 flex items-center gap-2">
             <span
-              class="w-7 h-7 rounded-lg bg-blue-600 text-white text-xs flex items-center justify-center font-bold"
+              class="w-7 h-7 rounded-lg text-white text-xs flex items-center justify-center font-bold"
+              style="background: linear-gradient(135deg, #6366f1, #8b5cf6)"
               >A</span
             >
             Draw from the Pile
           </h3>
-          <ol class="space-y-2 text-emerald-300 text-sm">
+          <ol class="space-y-2 text-indigo-300 text-sm">
             <li>Draw the top card from the draw pile and look at it.</li>
             <li class="font-medium text-white">Then choose one:</li>
             <li class="ml-4">
-              <strong class="text-emerald-200">Swap</strong> — Replace any card
+              <strong class="text-indigo-200">Swap</strong> — Replace any card
               in your grid (face-up or face-down). The replaced card goes to the
               discard pile.
             </li>
             <li class="ml-4">
-              <strong class="text-emerald-200">Discard</strong> — Put the drawn
+              <strong class="text-indigo-200">Discard</strong> — Put the drawn
               card on the discard pile, then flip one face-down card in your
               grid face-up.
             </li>
@@ -131,7 +132,7 @@
 
         <!-- Option B -->
         <div
-          class="bg-emerald-800/30 border border-emerald-700/30 rounded-xl p-5"
+          class="bg-indigo-800/30 border border-indigo-700/30 rounded-xl p-5"
         >
           <h3 class="text-white font-semibold mb-2 flex items-center gap-2">
             <span
@@ -140,7 +141,7 @@
             >
             Take from Discard
           </h3>
-          <ol class="space-y-2 text-emerald-300 text-sm">
+          <ol class="space-y-2 text-indigo-300 text-sm">
             <li>Pick up the top card from the discard pile.</li>
             <li>
               You <strong class="text-white">must</strong> swap it with one card
@@ -148,7 +149,7 @@
             </li>
             <li>The replaced card goes to the discard pile.</li>
           </ol>
-          <p class="text-emerald-400/70 text-xs mt-3 italic">
+          <p class="text-indigo-400/70 text-xs mt-3 italic">
             Tip: Take a discard when you can see it's a low-value card worth
             keeping!
           </p>
@@ -162,9 +163,9 @@
         <span class="text-2xl">✨</span> Column Removal
       </h2>
       <div
-        class="bg-emerald-800/30 border border-emerald-700/30 rounded-xl p-5"
+        class="bg-indigo-800/30 border border-indigo-700/30 rounded-xl p-5"
       >
-        <p class="text-emerald-300 text-sm mb-3">
+        <p class="text-indigo-300 text-sm mb-3">
           If at any point you have
           <strong class="text-white">3 face-up cards of the same value</strong>
           in a vertical column, all 3 cards are
@@ -173,17 +174,17 @@
         <div class="flex items-center justify-center gap-6 my-4">
           <div class="flex flex-col items-center gap-1">
             <div
-              class="w-10 h-14 rounded bg-emerald-600 border border-emerald-500 flex items-center justify-center text-white font-bold text-sm"
+              class="w-10 h-14 rounded bg-indigo-600 border border-indigo-500 flex items-center justify-center text-white font-bold text-sm"
             >
               5
             </div>
             <div
-              class="w-10 h-14 rounded bg-emerald-600 border border-emerald-500 flex items-center justify-center text-white font-bold text-sm"
+              class="w-10 h-14 rounded bg-indigo-600 border border-indigo-500 flex items-center justify-center text-white font-bold text-sm"
             >
               5
             </div>
             <div
-              class="w-10 h-14 rounded bg-emerald-600 border border-emerald-500 flex items-center justify-center text-white font-bold text-sm"
+              class="w-10 h-14 rounded bg-indigo-600 border border-indigo-500 flex items-center justify-center text-white font-bold text-sm"
             >
               5
             </div>
@@ -191,23 +192,23 @@
           <span class="text-3xl text-yellow-400">→</span>
           <div class="flex flex-col items-center gap-1">
             <div
-              class="w-10 h-14 rounded border border-dashed border-emerald-700/50 flex items-center justify-center text-emerald-600 text-xl"
+              class="w-10 h-14 rounded border border-dashed border-indigo-700/50 flex items-center justify-center text-indigo-600 text-xl"
             >
               ✕
             </div>
             <div
-              class="w-10 h-14 rounded border border-dashed border-emerald-700/50 flex items-center justify-center text-emerald-600 text-xl"
+              class="w-10 h-14 rounded border border-dashed border-indigo-700/50 flex items-center justify-center text-indigo-600 text-xl"
             >
               ✕
             </div>
             <div
-              class="w-10 h-14 rounded border border-dashed border-emerald-700/50 flex items-center justify-center text-emerald-600 text-xl"
+              class="w-10 h-14 rounded border border-dashed border-indigo-700/50 flex items-center justify-center text-indigo-600 text-xl"
             >
               ✕
             </div>
           </div>
         </div>
-        <p class="text-emerald-400/70 text-xs text-center italic">
+        <p class="text-indigo-400/70 text-xs text-center italic">
           This removes 15 points (3 × 5) from your score — a huge advantage!
         </p>
       </div>
@@ -219,7 +220,7 @@
         <span class="text-2xl">🏁</span> End of Round
       </h2>
       <div
-        class="bg-emerald-800/30 border border-emerald-700/30 rounded-xl p-5 space-y-3 text-emerald-300 text-sm"
+        class="bg-indigo-800/30 border border-indigo-700/30 rounded-xl p-5 space-y-3 text-indigo-300 text-sm"
       >
         <p>
           A round ends when
@@ -251,7 +252,7 @@
         <span class="text-2xl">🏆</span> End of Game
       </h2>
       <div
-        class="bg-emerald-800/30 border border-emerald-700/30 rounded-xl p-5 space-y-3 text-emerald-300 text-sm"
+        class="bg-indigo-800/30 border border-indigo-700/30 rounded-xl p-5 space-y-3 text-indigo-300 text-sm"
       >
         <p>
           After each round, cumulative scores are updated. The game ends when
@@ -272,9 +273,9 @@
         <span class="text-2xl">💡</span> Tips
       </h2>
       <div
-        class="bg-emerald-800/30 border border-emerald-700/30 rounded-xl p-5"
+        class="bg-indigo-800/30 border border-indigo-700/30 rounded-xl p-5"
       >
-        <ul class="space-y-2 text-emerald-300 text-sm">
+        <ul class="space-y-2 text-indigo-300 text-sm">
           <li class="flex gap-2">
             <span class="text-yellow-400">•</span>
             <span
@@ -318,7 +319,7 @@
     <div class="text-center pt-4 pb-8">
       <NuxtLink
         to="/play"
-        class="inline-flex items-center gap-2 bg-yellow-500 hover:bg-yellow-400 text-emerald-900 font-bold px-8 py-3 rounded-xl transition-colors text-lg"
+        class="inline-flex items-center gap-2 bg-yellow-500 hover:bg-yellow-400 text-indigo-900 font-bold px-8 py-3 rounded-xl transition-colors text-lg"
       >
         🃏 Start Playing
       </NuxtLink>

@@ -4,9 +4,9 @@
     :class="[
       compact ? 'p-2' : 'p-2 sm:p-3',
       isActive
-        ? 'bg-emerald-700/40 ring-2 ring-yellow-400/60'
-        : 'bg-emerald-800/30',
-      isHuman ? 'border border-emerald-500/40' : 'border border-emerald-700/20',
+        ? 'bg-indigo-700/40 ring-2 ring-yellow-400/60'
+        : 'bg-indigo-800/30',
+      isHuman ? 'border border-indigo-500/40' : 'border border-indigo-700/20',
     ]"
   >
     <div class="flex items-center justify-between mb-1">
@@ -14,7 +14,7 @@
         <span
           class="font-semibold"
           :class="[
-            isHuman ? 'text-emerald-300' : 'text-white/80',
+            isHuman ? 'text-indigo-300' : 'text-white/80',
             compact ? 'text-xs' : 'text-sm',
           ]"
         >
@@ -28,10 +28,10 @@
         </span>
       </div>
       <div class="text-right">
-        <span class="text-xs text-emerald-400">Score: </span>
+        <span class="text-xs text-indigo-400">Score: </span>
         <span
           class="text-sm font-bold"
-          :class="visibleScore < 0 ? 'text-emerald-300' : 'text-white'"
+          :class="visibleScore < 0 ? 'text-indigo-300' : 'text-white'"
         >
           {{ visibleScore }}
         </span>

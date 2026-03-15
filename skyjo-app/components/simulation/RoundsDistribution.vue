@@ -1,6 +1,6 @@
 <template>
-  <div class="bg-emerald-800/20 rounded-xl border border-emerald-700/20 p-4">
-    <h3 class="text-sm font-medium text-emerald-300 mb-3">
+  <div class="bg-indigo-800/20 rounded-xl border border-indigo-700/20 p-4">
+    <h3 class="text-sm font-medium text-indigo-300 mb-3">
       Rounds per Game Distribution
     </h3>
     <div class="h-64">
@@ -60,8 +60,8 @@ const chartData = computed(() => {
       {
         label: "Games",
         data: buckets,
-        backgroundColor: "rgba(16, 185, 129, 0.6)",
-        borderColor: "rgba(16, 185, 129, 0.9)",
+        backgroundColor: "rgba(99, 102, 241, 0.6)",
+        borderColor: "rgba(99, 102, 241, 0.9)",
         borderWidth: 1,
         borderRadius: 4,
       },
@@ -79,7 +79,7 @@ const chartOptions = {
     y: {
       beginAtZero: true,
       ticks: { color: "#6ee7b7" },
-      grid: { color: "rgba(16, 185, 129, 0.1)" },
+      grid: { color: "rgba(99, 102, 241, 0.1)" },
       title: { display: true, text: "Games", color: "#6ee7b7" },
     },
     x: {

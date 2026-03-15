@@ -4,7 +4,7 @@
 
     <!-- Player count -->
     <div>
-      <label class="block text-sm text-emerald-300 mb-2"
+      <label class="block text-sm text-indigo-300 mb-2"
         >Number of Players</label
       >
       <div class="flex gap-2">
@@ -14,8 +14,8 @@
           class="flex-1 py-2 rounded-lg text-sm font-medium transition"
           :class="
             playerCount === n
-              ? 'bg-emerald-600 text-white'
-              : 'bg-emerald-800/40 text-emerald-300 hover:bg-emerald-700/50'
+              ? 'bg-indigo-600 text-white'
+              : 'bg-indigo-800/40 text-indigo-300 hover:bg-indigo-700/50'
           "
           @click="playerCount = n"
         >
@@ -26,12 +26,12 @@
 
     <!-- Strategy selection for each AI player -->
     <div v-for="i in playerCount - 1" :key="i" class="space-y-1">
-      <label class="block text-sm text-emerald-300"
+      <label class="block text-sm text-indigo-300"
         >AI Player {{ i }} Strategy</label
       >
       <select
         v-model="strategies[i - 1]"
-        class="w-full bg-emerald-800/50 border border-emerald-700/50 rounded-lg px-3 py-2 text-white text-sm focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
+        class="w-full bg-indigo-800/50 border border-indigo-700/50 rounded-lg px-3 py-2 text-white text-sm focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
       >
         <option v-for="s in allStrategies" :key="s" :value="s">
           {{ strategyNames[s] }} — {{ strategyDescriptions[s] }}

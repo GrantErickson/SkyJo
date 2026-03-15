@@ -26,7 +26,7 @@
         >
           <div
             v-if="modelValue"
-            class="relative bg-emerald-900/95 border border-emerald-700/50 rounded-2xl shadow-2xl max-w-lg w-full p-6 z-10"
+            class="relative bg-indigo-900/95 border border-indigo-700/50 rounded-2xl shadow-2xl max-w-lg w-full p-6 z-10"
           >
             <slot />
           </div>

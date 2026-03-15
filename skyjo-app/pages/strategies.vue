@@ -1,13 +1,13 @@
 <template>
   <div class="min-h-[calc(100vh-8rem)] py-6 px-4 max-w-4xl mx-auto">
     <h1 class="text-3xl font-bold text-white mb-2">AI Strategies</h1>
-    <p class="text-emerald-300 mb-3">
+    <p class="text-indigo-300 mb-8">
       Each AI opponent uses a different strategy to decide how to play. All
       strategies (except Random) are
       <span class="text-yellow-400 font-medium">opponent-aware</span> — they
       monitor other players' grids and adjust their play dynamically.
     </p>
-    <p class="text-emerald-400/70 text-sm mb-8">
+    <p class="text-indigo-400/70 text-sm mb-8">
       When an opponent is close to finishing a round, strategies shift into
       pressure mode: accepting higher-value cards, rushing to flip unknowns, and
       adjusting risk tolerance.
@@ -17,7 +17,7 @@
       <div
         v-for="strategy in strategies"
         :key="strategy.id"
-        class="bg-emerald-800/30 border border-emerald-700/30 rounded-xl p-5"
+        class="bg-indigo-800/30 border border-indigo-700/30 rounded-xl p-5"
       >
         <div class="flex items-start gap-4">
           <div
@@ -38,19 +38,19 @@
                 {{ strategy.difficulty }}
               </span>
             </div>
-            <p class="text-emerald-300 text-sm mb-2">
+            <p class="text-indigo-300 text-sm mb-3">
               {{ strategy.description }}
             </p>
-            <p class="text-emerald-400/60 text-xs mb-3 leading-relaxed">
+            <p class="text-indigo-400/60 text-xs mb-3 leading-relaxed">
               {{ strategy.detail }}
             </p>
             <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 text-xs">
               <div
                 v-for="trait in strategy.traits"
                 :key="trait.label"
-                class="bg-emerald-900/40 rounded-lg px-2.5 py-1.5"
+                class="bg-indigo-900/40 rounded-lg px-2.5 py-1.5"
               >
-                <span class="text-emerald-400/70">{{ trait.label }}:</span>
+                <span class="text-indigo-400/70">{{ trait.label }}:</span>
                 <span class="text-white ml-1 font-medium">{{
                   trait.value
                 }}</span>
@@ -62,14 +62,14 @@
     </div>
 
     <div
-      class="mt-8 bg-emerald-800/20 border border-emerald-700/20 rounded-xl p-5 text-center"
+      class="mt-8 bg-indigo-800/20 border border-indigo-700/20 rounded-xl p-5 text-center"
     >
-      <p class="text-emerald-300 text-sm mb-3">
+      <p class="text-indigo-300 text-sm mb-3">
         Want to see how these strategies compare?
       </p>
       <NuxtLink
         to="/simulation"
-        class="inline-flex items-center gap-2 bg-emerald-600 hover:bg-emerald-500 text-white px-4 py-2 rounded-lg text-sm font-medium transition"
+        class="inline-flex items-center gap-2 bg-indigo-600 hover:bg-indigo-500 text-white px-4 py-2 rounded-lg text-sm font-medium transition"
       >
         Run a Simulation
       </NuxtLink>
@@ -137,9 +137,9 @@ const strategies: StrategyInfo[] = [
     detail:
       "Prioritizes flipping face-down cards to gather information before making swaps. Only takes discards when they're very low value (≤0), and only ends a round when safely ahead with ≤2 unknowns. Under pressure from opponents, widens discard acceptance to ≤3, expands column-match range, and force-flips when too many unknowns remain. When leading by a large margin (10+ points), becomes slightly bolder about ending rounds.",
     icon: "🛡️",
-    badgeClass: "bg-blue-700/60",
+    badgeClass: "bg-indigo-700/60",
     difficulty: "Medium",
-    difficultyClass: "bg-blue-600/40 text-blue-300",
+    difficultyClass: "bg-indigo-600/40 text-indigo-300",
     traits: [
       { label: "Risk", value: "Very Low" },
       { label: "Column Focus", value: "Medium" },
@@ -171,7 +171,7 @@ const strategies: StrategyInfo[] = [
     detail:
       "Plays in phases: flips cards early for information, hunts column matches mid-game, and tries to end rounds when safely ahead late. Card acceptance thresholds shift dynamically based on both game progress and opponent state. Under pressure, extends the early-game flip phase and widens acceptance thresholds using a pressure boost. Always seeks column-match completions from the discard regardless of phase.",
     icon: "⚖️",
-    badgeClass: "bg-emerald-700/60",
+    badgeClass: "bg-indigo-700/60",
     difficulty: "Hard",
     difficultyClass: "bg-orange-600/40 text-orange-300",
     traits: [
