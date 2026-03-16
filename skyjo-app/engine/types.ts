@@ -45,7 +45,8 @@ export type StrategyId =
   | "balanced"
   | "memory"
   | "column-hunter"
-  | "risk-taker";
+  | "risk-taker"
+  | "ultimate";
 
 export interface GameState {
   players: Player[];

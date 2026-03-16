@@ -232,5 +232,22 @@ const strategies: StrategyInfo[] = [
       { label: "Predictability", value: "Wild" },
     ],
   },
+  {
+    id: "ultimate",
+    name: STRATEGY_NAMES.ultimate,
+    description: STRATEGY_DESCRIPTIONS.ultimate,
+    detail:
+      "The best of every strategy rolled into one. Uses Memory's full card tracker to calculate draw pile probabilities. Hunts column completions and builds pairs like Column Hunter. Adapts between conservative early play and aggressive late play like Balanced. Ends rounds quickly when leading like Aggressive. Prioritizes statistically-informed flips in columns where matching cards remain in the deck. Under pressure, widens acceptance thresholds and rushes to reveal unknowns.",
+    icon: "👑",
+    badgeClass: "bg-gradient-to-br from-yellow-600/80 to-amber-700/80",
+    difficulty: "Expert",
+    difficultyClass: "bg-red-600/50 text-red-200",
+    traits: [
+      { label: "Risk", value: "Optimal" },
+      { label: "Column Focus", value: "High" },
+      { label: "Opponent Aware", value: "Yes" },
+      { label: "Predictability", value: "Adaptive" },
+    ],
+  },
 ];
 </script>
