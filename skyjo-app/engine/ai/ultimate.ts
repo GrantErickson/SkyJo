@@ -5,6 +5,7 @@ import type {
   GridPosition,
   Card,
   GameState,
+  PlayerGrid,
 } from "../types";
 import { COLS, ROWS, CARD_DISTRIBUTION, TOTAL_CARDS } from "../constants";
 import {
@@ -301,7 +302,7 @@ export function createUltimateStrategy(): Strategy {
 
 /** Find a position that completes a 3-of-a-kind column (from Column Hunter). */
 function findColumnCompleter(
-  grid: any[][],
+  grid: PlayerGrid,
   value: number,
 ): GridPosition | null {
   for (let col = 0; col < COLS; col++) {
@@ -327,7 +328,7 @@ function findColumnCompleter(
 
 /** Find a position to build a pair toward a column match (from Column Hunter). */
 function findColumnPairTarget(
-  grid: any[][],
+  grid: PlayerGrid,
   value: number,
 ): GridPosition | null {
   for (let col = 0; col < COLS; col++) {
@@ -348,7 +349,7 @@ function findColumnPairTarget(
 }
 
 /** Find the best target for placing a new card (from Memory). */
-function findBestTarget(grid: any[][], newValue: number): GridPosition {
+function findBestTarget(grid: PlayerGrid, newValue: number): GridPosition {
   const highest = getHighestFaceUpPosition(grid);
   if (highest && grid[highest.row][highest.col].card!.value > newValue) {
     return highest;
@@ -365,7 +366,7 @@ function findBestTarget(grid: any[][], newValue: number): GridPosition {
  * Pick the best face-down card to flip, using memory-informed column match
  * probability (from Memory) and column-match awareness (from Column Hunter).
  */
-function pickBestFlip(grid: any[][], tracker: CardTracker): GridPosition {
+function pickBestFlip(grid: PlayerGrid, tracker: CardTracker): GridPosition {
   const faceDown = getFaceDownPositions(grid);
 
   // Prefer positions that could complete column matches with cards still available
