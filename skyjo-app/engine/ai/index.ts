@@ -8,6 +8,7 @@ import { createBalancedStrategy } from "./balanced";
 import { createMemoryStrategy } from "./memory";
 import { createColumnHunterStrategy } from "./column-hunter";
 import { createRiskTakerStrategy } from "./risk-taker";
+import { createUltimateStrategy } from "./ultimate";
 
 const strategyFactories: Record<StrategyId, () => Strategy> = {
   random: createRandomStrategy,
@@ -18,6 +19,7 @@ const strategyFactories: Record<StrategyId, () => Strategy> = {
   memory: createMemoryStrategy,
   "column-hunter": createColumnHunterStrategy,
   "risk-taker": createRiskTakerStrategy,
+  ultimate: createUltimateStrategy,
 };
 
 export function getStrategy(
@@ -51,3 +53,4 @@ export { createBalancedStrategy } from "./balanced";
 export { createMemoryStrategy } from "./memory";
 export { createColumnHunterStrategy } from "./column-hunter";
 export { createRiskTakerStrategy } from "./risk-taker";
+export { createUltimateStrategy } from "./ultimate";
