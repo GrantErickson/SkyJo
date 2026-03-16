@@ -232,5 +232,22 @@ const strategies: StrategyInfo[] = [
       { label: "Predictability", value: "Wild" },
     ],
   },
+  {
+    id: "ultimate",
+    name: STRATEGY_NAMES.ultimate,
+    description: STRATEGY_DESCRIPTIONS.ultimate,
+    detail:
+      "The pinnacle of SkyJo AI — synthesizes every technique into one cohesive player. It tracks card probabilities like Memory, hunts column completions and builds pairs like Column Hunter, phases its play from conservative to aggressive like Balanced, and reacts to opponent pressure like all the strongest strategies. With the lowest exploration rate, it wastes almost no moves on experimentation.",
+    icon: "👑",
+    badgeClass: "bg-gradient-to-br from-yellow-500/60 to-amber-600/60",
+    difficulty: "Expert",
+    difficultyClass: "bg-purple-600/40 text-purple-200",
+    traits: [
+      { label: "Risk", value: "Adaptive" },
+      { label: "Column Focus", value: "Very High" },
+      { label: "Opponent Aware", value: "Yes" },
+      { label: "Predictability", value: "Optimal" },
+    ],
+  },
 ];
 </script>
