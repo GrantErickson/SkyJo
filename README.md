@@ -2,6 +2,8 @@
 
 A browser-based implementation of the SkyJo card game built with Nuxt 3. Play against AI opponents with eight distinct strategies, or run thousands of simulated games to discover which strategy reigns supreme.
 
+[Link to the game](https://green-sand-04ecb981e.4.azurestaticapps.net/)
+
 ## Features
 
 - **Play Mode** — Play against 1–3 AI opponents, each using a selectable strategy
